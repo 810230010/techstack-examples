@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/elasticsearch/elasticsearch.iml" filepath="$PROJECT_DIR$/elasticsearch/elasticsearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc-lite/rpc-core/rpc-core.iml" filepath="$PROJECT_DIR$/rpc-lite/rpc-core/rpc-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc-lite/rpc-lite.iml" filepath="$PROJECT_DIR$/rpc-lite/rpc-lite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example.iml" filepath="$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example-api/rpc-lite-example-api.iml" filepath="$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example-api/rpc-lite-example-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example-consumer/rpc-lite-example-consumer.iml" filepath="$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example-consumer/rpc-lite-example-consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example-provider/rpc-lite-example-provider.iml" filepath="$PROJECT_DIR$/rpc-lite/rpc-lite-example/rpc-lite-example-provider/rpc-lite-example-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/techstack-examples.iml" filepath="$PROJECT_DIR$/techstack-examples.iml" />
+    </modules>
+  </component>
+</project>
