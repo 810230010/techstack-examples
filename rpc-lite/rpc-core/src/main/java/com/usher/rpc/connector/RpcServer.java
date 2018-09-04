@@ -3,7 +3,11 @@ package com.usher.rpc.connector;
 import com.usher.rpc.annotation.RpcService;
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
+import com.usher.rpc.common.server.IServer;
+import com.usher.rpc.serialization.HessianSerializor;
+import com.usher.rpc.serialization.Serializor;
 import com.usher.rpc.util.AppContextHolder;
+import com.usher.rpc.util.ByteUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -12,9 +16,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
@@ -24,8 +26,17 @@ import java.util.HashMap;
 import java.util.Map;
 @Slf4j
 public class RpcServer implements InitializingBean,ApplicationContextAware {
-
+    private IServer server;
     private int port;
+    private Serializor serializor = new HessianSerializor();
+
+    public Serializor getSerializor() {
+        return serializor;
+    }
+
+    public void setSerializor(Serializor serializor) {
+        this.serializor = serializor;
+    }
 
     Map<String, Object> serviceMap = new HashMap<>();
     @Override
@@ -49,48 +60,15 @@ public class RpcServer implements InitializingBean,ApplicationContextAware {
         this.port = port;
     }
 
-    public void startServer(){
-        try(ServerSocket ss = new ServerSocket(port)) {
-            while(true){
-                try(Socket s = ss.accept()){
-                    ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-                    Object result = null;
-                        RpcRequest request = (RpcRequest)ois.readObject();
-                        String methodName = request.getMethodName();
-                        String clazzName = request.getClassName();
-                        Class[] paramterTypes = request.getParameterTypes();
-                        Object[] params = request.getParams();
+    public static void invokeServiceImpl(Object service, RpcRequest request){
 
-                        Object bean = serviceMap.get(clazzName);
-                        Class clazz = bean.getClass();
-                        Method m = clazz.getMethod(methodName, paramterTypes);
-                        Object res = m.invoke(bean, params);
-                        try (ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream())){
-                            RpcResponse response = new RpcResponse();
-                            response.setResult(res);
-                            oos.writeObject(response);
-                            oos.flush();
-                        }
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("rpc server初始化完成.., {}", this);
-        startServer();
+        server.startServer(port, serializor);
         log.info("rpc server启动，正在监听..");
     }
 

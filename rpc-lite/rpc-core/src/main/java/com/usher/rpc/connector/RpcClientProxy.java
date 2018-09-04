@@ -2,13 +2,16 @@ package com.usher.rpc.connector;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
+import com.usher.rpc.common.client.IClient;
+import com.usher.rpc.serialization.HessianSerializor;
+import com.usher.rpc.serialization.Serializor;
+import com.usher.rpc.util.ByteUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.lang.reflect.Proxy;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -17,7 +20,7 @@ public class RpcClientProxy<T>{
     private Class<T> rpcIface;
     private String serverAddress; /** socket 通讯,地址->ip **/
     private int port;
-
+    private Serializor serializor = new HessianSerializor();
     public Class<T> getRpcIface() {
         return rpcIface;
     }
@@ -41,32 +44,40 @@ public class RpcClientProxy<T>{
     public void setPort(int port) {
         this.port = port;
     }
-    public RpcClientProxy(Class iface, String serverAddress, int port){
+    public RpcClientProxy(Class iface, String serverAddress, int port, Serializor serializor){
         this.rpcIface = iface;
         this.serverAddress = serverAddress;
         this.port = port;
+        this.serializor = serializor;
     }
 
     public static class Builder<T>{
         private Class<T> rpcIface;
         private String serverAddress; /** socket 通讯,地址->ip **/
         private int port;
-        Builder serverAddress(String address){
+        private Serializor serializor = new HessianSerializor();
+        public Builder serverAddress(String address){
             this.serverAddress = address;
             return this;
         }
-        Builder port(int port){
+        public Builder port(int port){
             this.port = port;
             return this;
         }
-        Builder iface(Class clazz){
+        public Builder iface(Class clazz){
             this.rpcIface = clazz;
             return this;
         }
+        public Builder serializor(Serializor serializor){
+            this.serializor = serializor;
+            return this;
+        }
         public RpcClientProxy build(){
-            return new RpcClientProxy(this.rpcIface, this.serverAddress, this.port);
+            return new RpcClientProxy(this.rpcIface, this.serverAddress, this.port, serializor);
         }
     }
+
+    private IClient client;
     public T getObject() throws Exception {
         return (T)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{rpcIface},
                 (proxy, method, args) -> {
@@ -75,20 +86,8 @@ public class RpcClientProxy<T>{
                     request.setMethodName(method.getName());
                     request.setParams(args);
                     request.setParameterTypes(method.getParameterTypes());
-                    try(Socket socket = new Socket(serverAddress, port)){
-                        //发送序列化后的请求
-                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-                        oos.writeObject(request);
-                        oos.flush();
-                        //接受响应
-                        try(ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())){
-                            Object result = null;
-                                RpcResponse response = (RpcResponse) ois.readObject();
-                                return response.getResult();
-                        }
-                    }
+                    return client.sendRequest(request);
         });
     }
-
 
 }
