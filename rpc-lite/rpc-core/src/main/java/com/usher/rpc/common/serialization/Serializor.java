@@ -1,7 +1,5 @@
-package com.usher.rpc.serialization;
+package com.usher.rpc.common.serialization;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 public abstract class Serializor {

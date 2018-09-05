@@ -2,6 +2,7 @@ package com.usher.rpc.serialization;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
+import com.usher.rpc.common.serialization.Serializor;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

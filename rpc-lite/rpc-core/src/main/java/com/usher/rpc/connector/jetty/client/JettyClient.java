@@ -3,7 +3,6 @@ package com.usher.rpc.connector.jetty.client;
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.common.client.IClient;
-import com.usher.rpc.serialization.Serializor;
 import com.usher.rpc.util.HttpClientUtil;
 import org.springframework.util.Assert;
 

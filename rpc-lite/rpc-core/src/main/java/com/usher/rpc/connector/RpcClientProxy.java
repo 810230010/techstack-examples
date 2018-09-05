@@ -1,31 +1,25 @@
 package com.usher.rpc.connector;
 
 import com.usher.rpc.codec.RpcRequest;
-import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.common.client.IClient;
 import com.usher.rpc.serialization.HessianSerializor;
-import com.usher.rpc.serialization.Serializor;
-import com.usher.rpc.util.ByteUtil;
+import com.usher.rpc.common.serialization.Serializor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Bean;
 
-import java.io.*;
 import java.lang.reflect.Proxy;
-import java.net.InetAddress;
-import java.net.Socket;
+
 @Slf4j
-public class RpcClientProxy<T>{
-    private Class<T> rpcIface;
+public class RpcClientProxy<T> implements InitializingBean {
+    private Class<T>[] rpcIface;
     private String serverAddress; /** socket 通讯,地址->ip **/
     private int port;
     private Serializor serializor = new HessianSerializor();
-    public Class<T> getRpcIface() {
+    public Class<T>[] getRpcIface() {
         return rpcIface;
     }
 
-    public void setRpcIface(Class<T> rpcIface) {
+    public void setRpcIface(Class<T>[] rpcIface) {
         this.rpcIface = rpcIface;
     }
 
@@ -40,54 +34,38 @@ public class RpcClientProxy<T>{
     public int getPort() {
         return port;
     }
-
+    private IClient client;
     public void setPort(int port) {
         this.port = port;
     }
-    public RpcClientProxy(Class iface, String serverAddress, int port, Serializor serializor){
+    public RpcClientProxy(Class[] iface, String serverAddress, int port, Serializor serializor, IClient client){
         this.rpcIface = iface;
         this.serverAddress = serverAddress;
         this.port = port;
         this.serializor = serializor;
+        this.client = client;
     }
 
-    public static class Builder<T>{
-        private Class<T> rpcIface;
-        private String serverAddress; /** socket 通讯,地址->ip **/
-        private int port;
-        private Serializor serializor = new HessianSerializor();
-        public Builder serverAddress(String address){
-            this.serverAddress = address;
-            return this;
-        }
-        public Builder port(int port){
-            this.port = port;
-            return this;
-        }
-        public Builder iface(Class clazz){
-            this.rpcIface = clazz;
-            return this;
-        }
-        public Builder serializor(Serializor serializor){
-            this.serializor = serializor;
-            return this;
-        }
-        public RpcClientProxy build(){
-            return new RpcClientProxy(this.rpcIface, this.serverAddress, this.port, serializor);
-        }
-    }
 
-    private IClient client;
-    public T getObject() throws Exception {
-        return (T)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{rpcIface},
-                (proxy, method, args) -> {
-                    RpcRequest request = new RpcRequest();
-                    request.setClassName(method.getDeclaringClass().getName());
-                    request.setMethodName(method.getName());
-                    request.setParams(args);
-                    request.setParameterTypes(method.getParameterTypes());
-                    return client.sendRequest(request);
-        });
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        client.init(serverAddress, port, serializor);
+    }
+    public T getObject(Class ifaceClass) throws Exception {
+        for(Class iface : rpcIface){
+            if(ifaceClass.getName().equals(iface.getName())){
+                return (T)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{iface},
+                        (proxy, method, args) -> {
+                            RpcRequest request = new RpcRequest();
+                            request.setClassName(method.getDeclaringClass().getName());
+                            request.setMethodName(method.getName());
+                            request.setParams(args);
+                            request.setParameterTypes(method.getParameterTypes());
+                            return client.sendRequest(request).getResult();
+                        });
+            }
+        }
+        return null;
     }
 
 }

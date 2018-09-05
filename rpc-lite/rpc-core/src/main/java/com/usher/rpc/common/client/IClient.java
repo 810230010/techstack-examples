@@ -2,7 +2,7 @@ package com.usher.rpc.common.client;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.serialization.Serializor;
+import com.usher.rpc.common.serialization.Serializor;
 
 public abstract class IClient {
     protected Serializor serializor;
