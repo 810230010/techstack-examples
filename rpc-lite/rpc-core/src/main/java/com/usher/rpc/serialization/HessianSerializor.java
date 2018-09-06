@@ -32,7 +32,7 @@ public class HessianSerializor extends Serializor {
         ByteArrayInputStream bis = new ByteArrayInputStream(src);
         Hessian2Input input = new Hessian2Input(bis);
         try {
-            T result = (T)input.readObject();
+            T result = (T) input.readObject();
             return result;
         } catch (IOException e) {
             e.printStackTrace();

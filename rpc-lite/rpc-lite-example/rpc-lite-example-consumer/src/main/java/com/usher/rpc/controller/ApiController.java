@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
     @Autowired
     private RpcClientProxy<IUserService> rpcClientProxy;
+
     @RequestMapping("/say")
-    public String sayHello(){
+    public String sayHello() {
         IUserService userService = null;
         try {
             StopWatch stopWatch = new StopWatch();

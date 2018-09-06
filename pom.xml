@@ -19,6 +19,8 @@
     </parent>
     <modules>
         <module>elasticsearch</module>
+        <module>netty</module>
+        <module>rpc-lite</module>
     </modules>
 
     <properties>

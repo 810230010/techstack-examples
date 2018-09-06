@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ProtobuffSerializor<T> extends Serializor {
     private static Objenesis objenesis = new ObjenesisStd(true);
     private static Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<Class<?>, Schema<?>>();
+
     private static <T> Schema<T> getSchema(Class<T> cls) {
         @SuppressWarnings("unchecked")
         Schema<T> schema = (Schema<T>) cachedSchema.get(cls);

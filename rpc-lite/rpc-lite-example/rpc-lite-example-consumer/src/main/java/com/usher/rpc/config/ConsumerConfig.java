@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ConsumerConfig {
     @Bean
-    public RpcClientProxy rpcClientProxy(){
+    public RpcClientProxy rpcClientProxy() {
         RpcClientProxy<IUserService> rpcClientProxy = new RpcClientProxy<>(new Class[]{IUserService.class}, "localhost", 8787, new ProtobuffSerializor<>(), new JettyClient());
         return rpcClientProxy;
     }

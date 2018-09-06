@@ -24,7 +24,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.user</groupId>
+            <groupId>com.usher</groupId>
             <artifactId>rpc-lite-example-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServerConfig {
     @Bean
-    public RpcServer rpcServer(){
+    public RpcServer rpcServer() {
         RpcServer rpcServer = new RpcServer();
         rpcServer.setPort(8787);
         rpcServer.setSerializor(new ProtobuffSerializor<>());

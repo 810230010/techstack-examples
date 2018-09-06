@@ -17,8 +17,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
 @Slf4j
-public class RpcServer implements InitializingBean,ApplicationContextAware,DisposableBean {
+public class RpcServer implements InitializingBean, ApplicationContextAware, DisposableBean {
     private IServer server;
     private int port;
     private Serializor serializor = new HessianSerializor();
@@ -32,16 +33,18 @@ public class RpcServer implements InitializingBean,ApplicationContextAware,Dispo
     }
 
     static Map<String, Object> serviceMap = new HashMap<>();
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         Map<String, Object> map = applicationContext.getBeansWithAnnotation(RpcService.class);
-        for(Map.Entry<String, Object> entry : map.entrySet()){
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object bean = entry.getValue();
             String ifaceName = bean.getClass().getAnnotation(RpcService.class).value().getName();
             serviceMap.put(ifaceName, bean);
         }
         System.out.println(map);
     }
+
     public RpcServer() {
     }
 
@@ -61,8 +64,8 @@ public class RpcServer implements InitializingBean,ApplicationContextAware,Dispo
         this.port = port;
     }
 
-    public static RpcResponse invokeServiceImpl(RpcRequest request, Object service){
-        if(service == null){
+    public static RpcResponse invokeServiceImpl(RpcRequest request, Object service) {
+        if (service == null) {
             service = serviceMap.get(request.getClassName());
         }
         RpcResponse response = new RpcResponse();

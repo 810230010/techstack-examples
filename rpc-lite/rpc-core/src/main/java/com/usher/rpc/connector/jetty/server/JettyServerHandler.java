@@ -16,9 +16,11 @@ import java.io.OutputStream;
 
 public class JettyServerHandler extends AbstractHandler {
     private Serializor serializor;
-    public JettyServerHandler(Serializor serializor){
+
+    public JettyServerHandler(Serializor serializor) {
         this.serializor = serializor;
     }
+
     @Override
     public void handle(String s, Request request, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
         byte[] bytes = HttpClientUtil.readBytes(httpServletRequest);

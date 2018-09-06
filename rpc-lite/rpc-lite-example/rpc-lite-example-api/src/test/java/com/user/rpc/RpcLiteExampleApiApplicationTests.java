@@ -15,7 +15,7 @@ public class RpcLiteExampleApiApplicationTests {
     public void contextLoads() {
     }
 
-    interface UserService{
+    interface UserService {
         void say();
     }
 

@@ -12,10 +12,10 @@ public class RpcCoreApplicationTests {
         System.out.println(test());
     }
 
-    public static boolean test(){
-        try{
+    public static boolean test() {
+        try {
             int a = 1 / 0;
-        }catch (ArithmeticException e){
+        } catch (ArithmeticException e) {
             return false;
         }
         return true;

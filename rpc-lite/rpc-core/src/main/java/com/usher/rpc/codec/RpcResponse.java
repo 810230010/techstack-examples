@@ -3,6 +3,7 @@ package com.usher.rpc.codec;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+
 public class RpcResponse implements Serializable {
     private static final long serialVersionUID = 1L;
     private Object result;

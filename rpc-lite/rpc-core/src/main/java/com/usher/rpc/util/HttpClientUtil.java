@@ -14,68 +14,69 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class HttpClientUtil {
-        /**
-         * post request
-         */
-        public static byte[] postRequest(String reqURL, byte[] date) {
-            byte[] responseBytes = null;
+    /**
+     * post request
+     */
+    public static byte[] postRequest(String reqURL, byte[] date) {
+        byte[] responseBytes = null;
 
-            HttpPost httpPost = new HttpPost(reqURL);
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(reqURL);
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            if (date != null) {
+                httpPost.setEntity(new ByteArrayEntity(date, ContentType.DEFAULT_BINARY));
+            }
+            // do post
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            if (null != entity) {
+                responseBytes = EntityUtils.toByteArray(entity);
+                EntityUtils.consume(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // 注意：此处异常需要反序列化后返回，或者将异常直接抛出
+        } finally {
+            httpPost.releaseConnection();
             try {
-                if (date != null) {
-                    httpPost.setEntity(new ByteArrayEntity(date, ContentType.DEFAULT_BINARY));
-                }
-                // do post
-                HttpResponse response = httpClient.execute(httpPost);
-                HttpEntity entity = response.getEntity();
-                if (null != entity) {
-                    responseBytes = EntityUtils.toByteArray(entity);
-                    EntityUtils.consume(entity);
-                }
-            } catch (Exception e) {
+                httpClient.close();
+            } catch (IOException e) {
                 e.printStackTrace();
-
-                // 注意：此处异常需要反序列化后返回，或者将异常直接抛出
-            } finally {
-                httpPost.releaseConnection();
-                try {
-                    httpClient.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
-            return responseBytes;
         }
+        return responseBytes;
+    }
 
-        /**
-         * read bytes from http request
-         * @param request
-         * @return
-         * @throws IOException
-         */
-        public static final byte[] readBytes(HttpServletRequest request) throws IOException {
-            request.setCharacterEncoding("UTF-8");
-            int contentLen = request.getContentLength();
-            InputStream is = request.getInputStream();
-            if (contentLen > 0) {
-                int readLen = 0;
-                int readLengthThisTime = 0;
-                byte[] message = new byte[contentLen];
-                try {
-                    while (readLen != contentLen) {
-                        readLengthThisTime = is.read(message, readLen, contentLen - readLen);
-                        if (readLengthThisTime == -1) {
-                            break;
-                        }
-                        readLen += readLengthThisTime;
+    /**
+     * read bytes from http request
+     *
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    public static final byte[] readBytes(HttpServletRequest request) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        int contentLen = request.getContentLength();
+        InputStream is = request.getInputStream();
+        if (contentLen > 0) {
+            int readLen = 0;
+            int readLengthThisTime = 0;
+            byte[] message = new byte[contentLen];
+            try {
+                while (readLen != contentLen) {
+                    readLengthThisTime = is.read(message, readLen, contentLen - readLen);
+                    if (readLengthThisTime == -1) {
+                        break;
                     }
-                    return message;
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    readLen += readLengthThisTime;
                 }
+                return message;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return new byte[] {};
         }
+        return new byte[]{};
+    }
 
 }
