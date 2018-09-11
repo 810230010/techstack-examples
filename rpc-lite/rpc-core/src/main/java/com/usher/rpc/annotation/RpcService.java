@@ -1,4 +1,4 @@
-package com.usher.annotation;
+package com.usher.rpc.annotation;
 
 import java.lang.annotation.*;
 
