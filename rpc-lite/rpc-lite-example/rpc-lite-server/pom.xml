@@ -3,22 +3,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>rpc-lite</artifactId>
+        <artifactId>rpc-lite-example</artifactId>
         <groupId>com.usher</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.usher</groupId>
-    <artifactId>rpc-lite-example</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <modules>
-        <module>rpc-example-api</module>
-        <module>rpc-lite-client</module>
-        <module>rpc-lite-server</module>
-    </modules>
-    <packaging>pom</packaging>
-    <name>rpc-lite-example</name>
+    <artifactId>rpc-lite-server</artifactId>
+    <version>0.0.1</version>
+
+    <name>rpc-lite-server</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
