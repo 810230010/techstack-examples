@@ -4,7 +4,6 @@ import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.connection.IClient;
 import com.usher.rpc.util.HttpClientUtil;
-import sun.plugin2.message.Message;
 
 import java.text.MessageFormat;
 

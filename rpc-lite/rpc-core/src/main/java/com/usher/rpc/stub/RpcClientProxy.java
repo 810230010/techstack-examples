@@ -5,6 +5,7 @@ import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.connection.IClient;
 import com.usher.rpc.serializor.Serializor;
 import com.usher.rpc.util.HttpClientUtil;
+import lombok.Data;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,7 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.text.MessageFormat;
 import java.util.UUID;
-
+@Data
 public class RpcClientProxy<T> implements InitializingBean {
     private String serverAddress;
     private int port;
