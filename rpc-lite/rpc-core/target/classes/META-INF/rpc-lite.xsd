@@ -13,7 +13,7 @@
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="interfaceName" type="xsd:string" />
+                    <xsd:attribute name="interface" type="xsd:string" />
                     <xsd:attribute name="ref" type="xsd:string" />
                 </xsd:extension>
             </xsd:complexContent>
@@ -24,10 +24,10 @@
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="serverAddress" type="xsd:string" />
+                    <xsd:attribute name="address" type="xsd:string" />
                     <xsd:attribute name="port" type="xsd:int" />
                     <xsd:attribute name="serializor" type="xsd:string" />
-                    <xsd:attribute name="connection" type="xsd:string" />
+                    <xsd:attribute name="connector" type="xsd:string" />
                 </xsd:extension>
             </xsd:complexContent>
         </xsd:complexType>
@@ -38,7 +38,7 @@
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
                     <xsd:attribute name="id" type="xsd:string" use="required"/>
-                    <xsd:attribute name="interfaceName" type="xsd:string" use="required"/>
+                    <xsd:attribute name="interface" type="xsd:string" use="required"/>
                     <xsd:attribute name="serializor" type="xsd:string" use="required"/>
                 </xsd:extension>
             </xsd:complexContent>

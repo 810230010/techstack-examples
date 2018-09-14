@@ -19,16 +19,16 @@ import java.text.MessageFormat;
 import java.util.UUID;
 @Data
 public class RpcClientProxy<T> implements InitializingBean {
-    private String serverAddress;
-    private int port;
+    private RpcClientRegistry rpcClientRegistry;
     private String className;
-    private Serializor serializor;
     private Class<T> iface;
-
     private IClient client;
+
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        client.init(serverAddress, port, serializor);
+        client = rpcClientRegistry.getClient();
+        client.init(rpcClientRegistry);
     }
 
     public T getProxy(){
@@ -39,8 +39,8 @@ public class RpcClientProxy<T> implements InitializingBean {
             request.setParams(args);
             request.setMethodName(m.getName());
             request.setParamTypes(m.getParameterTypes());
-            request.setServerAddress(serverAddress);
-            request.setPort(port);
+            request.setServerAddress(rpcClientRegistry.getServerAddress());
+            request.setPort(rpcClientRegistry.getPort());
 
             RpcResponse response = client.sendRequest(request);
             return response.getResult();

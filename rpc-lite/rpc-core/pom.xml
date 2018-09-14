@@ -6,6 +6,7 @@
         <artifactId>rpc-lite</artifactId>
         <groupId>com.usher</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
@@ -24,7 +25,29 @@
             <artifactId>hessian</artifactId>
             <version>4.0.38</version>
         </dependency>
+        <!-- jetty -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.4.11.v20180605</version>
+        </dependency>
+        <!-- jetty -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-http</artifactId>
+            <version>9.4.11.v20180605</version>
+        </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-io</artifactId>
+            <version>9.4.11.v20180605</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>9.4.11.v20180605</version>
+        </dependency>
     </dependencies>
 
 </project>

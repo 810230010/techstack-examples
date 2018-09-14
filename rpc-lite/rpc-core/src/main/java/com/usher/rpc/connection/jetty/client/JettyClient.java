@@ -13,7 +13,7 @@ public class JettyClient extends IClient {
         String serverAddress = rpcRequest.getServerAddress();
         int port = rpcRequest.getPort();
 
-        String reqUrl = MessageFormat.format("http://{0}:{1}/", serverAddress, port);
+        String reqUrl = String.format("http://%s:%d/", serverAddress, port);
         byte[] bytes = serializor.serialize(rpcRequest);
         byte[] response = HttpClientUtil.postRequest(reqUrl, bytes);
         return serializor.deserialize(response, RpcResponse.class);
