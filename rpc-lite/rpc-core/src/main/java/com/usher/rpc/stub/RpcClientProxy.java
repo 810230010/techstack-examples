@@ -3,6 +3,7 @@ package com.usher.rpc.stub;
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.connection.IClient;
+import com.usher.rpc.registry.IServiceDiscover;
 import com.usher.rpc.serializor.Serializor;
 import com.usher.rpc.util.HttpClientUtil;
 import lombok.Data;

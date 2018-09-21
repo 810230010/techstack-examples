@@ -4,6 +4,7 @@ import com.usher.rpc.annotation.RpcService;
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.connection.IServer;
+import com.usher.rpc.registry.IServiceRegister;
 import com.usher.rpc.serializor.Serializor;
 import lombok.Data;
 import org.springframework.beans.BeansException;
@@ -16,23 +17,22 @@ import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Data
 public class RpcServerInvoker implements ApplicationContextAware,InitializingBean, DisposableBean {
     private IServer server;
     private int port;
     private Serializor serializor;
-
+    private IServiceRegister serviceRegister;
     @Override
     public void destroy() throws Exception {
+        serviceRegister.stop();
         server.stopServer();
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        server.init(port, serializor).startServer();
-    }
 
     public static RpcResponse invokeService(RpcRequest request){
         String methodName = request.getMethodName();
@@ -65,6 +65,19 @@ public class RpcServerInvoker implements ApplicationContextAware,InitializingBea
             String ifaceName = entry.getValue().getClass().getAnnotation(RpcService.class).value().getName();
             Object bean = entry.getValue();
             serviceMap.put(ifaceName, bean);
+        }
+    }
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        server.init(port, serializor).startServer();
+        if(serviceRegister != null){
+            Set<String> serviceSet = new LinkedHashSet<>();
+            for(Map.Entry<String, Object> entry : serviceMap.entrySet()){
+                serviceSet.add(entry.getKey());
+            }
+            serviceRegister.registerService(serviceSet);
         }
     }
 }
