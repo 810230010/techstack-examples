@@ -38,7 +38,9 @@ public class ZKServiceRegister extends IServiceRegister {
                             // add One-time trigger, ZooKeeper的Watcher是一次性的，用过了需要再注册
                             String zpath = watchedEvent.getPath();
                             try {
-                                zooKeeperInstance.exists(zpath, true);
+                                if(zpath != null){
+                                    zooKeeperInstance.exists(zpath, true);
+                                }
                             } catch (KeeperException e) {
                                 e.printStackTrace();
                             } catch (InterruptedException e) {

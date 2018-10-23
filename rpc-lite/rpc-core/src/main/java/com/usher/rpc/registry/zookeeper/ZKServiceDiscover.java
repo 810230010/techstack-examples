@@ -28,6 +28,12 @@ public class ZKServiceDiscover extends IServiceDiscover {
             public void run() {
                 while(true){
                     freshService();
+                    try {
+                        TimeUnit.SECONDS.sleep(10L);
+                        System.out.println(">>>>>>>   刷新服务.......");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

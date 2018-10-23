@@ -18,7 +18,7 @@ public class JettyClient extends IClient {
         String interfaceName = rpcRequest.getIfaceName();
         IServiceDiscover serviceDiscover = rpcRequest.getServiceDiscover();
         if(null != serviceDiscover){
-            reqUrl = String.format("http://%s", serviceDiscover.getService(interfaceName));
+            reqUrl = String.format("http://%s/", serviceDiscover.getService(interfaceName));
         }else{
             reqUrl = String.format("http://%s:%d/", serverAddress, port);
         }
