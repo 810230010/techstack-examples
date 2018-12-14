@@ -1,5 +1,6 @@
 package com.usher.rpc.schema;
 
+import com.usher.rpc.config.RpcRegistryConfig;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
@@ -14,7 +15,7 @@ public class RpcRegistryParser implements BeanDefinitionParser {
         String serializor = element.getAttribute("serializor");
         String connector = element.getAttribute("connector");
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
-        beanDefinition.setBeanClass(RpcRegistry.class);
+        beanDefinition.setBeanClass(RpcRegistryConfig.class);
         beanDefinition.setLazyInit(false);
 
         beanDefinition.getPropertyValues().addPropertyValue("address", address);

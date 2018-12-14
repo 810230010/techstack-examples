@@ -1,47 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
-        xmlns="http://www.yihaomen.com/schema/rpc"
+        xmlns="http://www.rpc.com/schema/rpc-lite"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:beans="http://www.springframework.org/schema/beans"
-        targetNamespace="http://www.yihaomen.com/schema/rpc"
+        targetNamespace="http://www.rpc.com/schema/rpc-lite"
         elementFormDefault="qualified"
         attributeFormDefault="unqualified">
 
     <xsd:import namespace="http://www.springframework.org/schema/beans" />
 
-    <xsd:element name="service">
-        <xsd:complexType>
-            <xsd:complexContent>
-                <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="interface" type="xsd:string" />
-                    <xsd:attribute name="ref" type="xsd:string" />
-                </xsd:extension>
-            </xsd:complexContent>
-        </xsd:complexType>
-    </xsd:element>
+    <xsd:annotation>
+        <xsd:documentation>rpc xml configuration tag definition.</xsd:documentation>
+    </xsd:annotation>
 
-    <xsd:element name="registry">
-        <xsd:complexType>
-            <xsd:complexContent>
-                <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="address" type="xsd:string" />
-                    <xsd:attribute name="port" type="xsd:int" />
-                    <xsd:attribute name="serializor" type="xsd:string" />
-                    <xsd:attribute name="connector" type="xsd:string" />
-                </xsd:extension>
-            </xsd:complexContent>
-        </xsd:complexType>
-    </xsd:element>
+    <!--applicaiton标签-->
+    <xsd:complexType name="applicationType">
+        <!--name-->
+        <xsd:attribute name="name" type="xsd:string"/>
+    </xsd:complexType>
 
-    <xsd:element name="reference">
-        <xsd:complexType>
-            <xsd:complexContent>
-                <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="id" type="xsd:string" use="required"/>
-                    <xsd:attribute name="interface" type="xsd:string" use="required"/>
-                    <xsd:attribute name="serializor" type="xsd:string" use="required"/>
-                </xsd:extension>
-            </xsd:complexContent>
-        </xsd:complexType>
-    </xsd:element>
+    <!--service标签-->
+    <xsd:complexType name="serviceType">
+        <xsd:attribute name="id" type="xsd:string"/>
+        <!--接口-->
+        <xsd:attribute name="interface" type="xsd:string"/>
+        <!--引用的实现类  声明class或者ref其中一个，其中ref填bean的id-->
+        <xsd:attribute name="ref" type="xsd:string"/>
+        <xsd:attribute name="class" type="xsd:string"/>
+        <xsd:attribute name="loadbalance" type="xsd:string" default="random"/>
+        <xsd:attribute name="timeout" type="xsd:long" default="1000"/>
+    </xsd:complexType>
+
+    <!--registry-->
+    <xsd:complexType name="registryType">
+        <xsd:attribute name="address"/>
+    </xsd:complexType>
+
+    <!--reference-->
+    <xsd:complexType name="referenceType">
+        <xsd:attribute name="id" type="xsd:ID"/>
+        <xsd:attribute name="interface" type="xsd:string"/>
+        <xsd:attribute name="timeout" type="xsd:long" default="1000"/>
+    </xsd:complexType>
+
+    <!--protocol-->
+    <xsd:complexType name="protocolType">
+        <xsd:attribute name="id" type="xsd:string" />
+        <!--序列化方式:  json、hessian、protosbuff、kryo-->
+        <xsd:attribute name="serializor" type="xsd:string"/>
+        <!--网络通讯: netty、jetty-->
+        <xsd:attribute name="netcom" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:element name="application" type="applicationType"/>
+    <xsd:element name="service" type="serviceType"/>
+    <xsd:element name="reference" type="referenceType"/>
+    <xsd:element name="protocol" type="protocolType"/>
+
 </xsd:schema>
