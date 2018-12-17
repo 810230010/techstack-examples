@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 
 @Data
 public class RpcProtocolConfig implements InitializingBean, ApplicationContextAware {
+    private String id;
     private String serializor;
     private String netcom;
 

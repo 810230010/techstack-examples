@@ -12,39 +12,40 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 public class RpcProtocolParser implements BeanDefinitionParser {
-    public static final String DEFAULT_PROTOCOL_ID = "protocal";
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
         beanDefinition.setBeanClass(RpcProtocolConfig.class);
         beanDefinition.setLazyInit(false);
-
+        //id,netcom,serializor
         String netcom = element.getAttribute("netcom");
         String serializor = element.getAttribute("serializor");
         String protocolId = element.getAttribute("id");
 
         if(StringUtils.isEmpty(protocolId)){
+            String className = RpcProtocolConfig.class.getName();
+            protocolId = className;
             int sameNameBeanOccurTimes = 2;
             while(parserContext.getRegistry().containsBeanDefinition(protocolId)){
-                protocolId += (sameNameBeanOccurTimes++);
+                protocolId = className + (sameNameBeanOccurTimes++);
             }
             beanDefinition.getPropertyValues().addPropertyValue("id", protocolId);
         }else{
             if(parserContext.getRegistry().containsBeanDefinition(protocolId)){
-                throw new IllegalArgumentException("duplicate bean id with protocal id");
+                throw new IllegalArgumentException(String.format("<rpc:protocol id=\"%s\">, which \"%s\" has already declared before!"));
             }
         }
         
         if(NetcomType.matchNetcomType(netcom)) {
             beanDefinition.getPropertyValues().addPropertyValue("netcom", netcom);
         }else {
-            throw new IllegalArgumentException("unknown netcom type which should be one of \"NETTY,JETTY,MINA\"");
+            throw new IllegalArgumentException(String.format("<rpc:protocol netcom=\"%s\">, unknown netcom type which should be one of \"JETTY, NETTY, MINA\"", netcom));
         }
-        
+
         if(SerializorType.matchSerializorType(serializor)){
             beanDefinition.getPropertyValues().addPropertyValue("serializor", serializor);
         }else {
-            throw new IllegalArgumentException("unknown serializor type which should be one of \"HESSIAN,JSON,KRYO,PROTOSBUFF\"");
+            throw new IllegalArgumentException(String.format("<rpc:protocol serializor=\"%s\">, unknown serializor type which should be one of \"HESSIAN,JSON,KRYO\""));
         }
         
         parserContext.getRegistry().registerBeanDefinition(protocolId, beanDefinition);

@@ -18,6 +18,7 @@ public class RpcServiceConfig implements ApplicationContextAware, InitializingBe
     private long timeout;
     //负载均衡
     private String loadbalance;
+
     //注册中心地址
     private String registryAddress;
     //注册中心地址端口
@@ -28,8 +29,8 @@ public class RpcServiceConfig implements ApplicationContextAware, InitializingBe
     //通讯组件  netty、mina、jetty
     private String netcom;
 
-    private RpcRegistryConfig registryConfig;
-    private RpcProtocolConfig protocolConfig;
+    private RpcRegistryConfig registry;
+    private RpcProtocolConfig protocol;
 
 
     @Override
