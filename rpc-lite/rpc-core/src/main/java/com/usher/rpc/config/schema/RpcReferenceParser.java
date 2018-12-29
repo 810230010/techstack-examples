@@ -1,4 +1,4 @@
-package com.usher.rpc.schema;
+package com.usher.rpc.config.schema;
 
 import com.usher.rpc.config.RpcReferenceConfig;
 import org.springframework.beans.factory.config.BeanDefinition;

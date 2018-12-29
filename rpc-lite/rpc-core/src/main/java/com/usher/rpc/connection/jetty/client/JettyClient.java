@@ -2,21 +2,18 @@ package com.usher.rpc.connection.jetty.client;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.IClient;
-import com.usher.rpc.registry.IServiceDiscover;
-import com.usher.rpc.registry.zookeeper.ZKServiceDiscover;
-import com.usher.rpc.util.HttpClientUtil;
+import com.usher.rpc.connection.AbstractClient;
+import com.usher.rpc.registry.AbstractServiceDiscover;
+import com.usher.rpc.util.HttpClientUtils;
 
-import java.text.MessageFormat;
-
-public class JettyClient extends IClient {
+public class JettyClient extends AbstractClient {
     @Override
     public RpcResponse sendRequest(RpcRequest rpcRequest) {
         String serverAddress = rpcRequest.getServerAddress();
         int port = rpcRequest.getPort();
         String reqUrl = null;
         String interfaceName = rpcRequest.getIfaceName();
-        IServiceDiscover serviceDiscover = rpcRequest.getServiceDiscover();
+        AbstractServiceDiscover serviceDiscover = rpcRequest.getServiceDiscover();
         if(null != serviceDiscover){
             reqUrl = String.format("http://%s/", serviceDiscover.getService(interfaceName));
         }else{
@@ -24,7 +21,7 @@ public class JettyClient extends IClient {
         }
 
         byte[] bytes = serializor.serialize(rpcRequest);
-        byte[] response = HttpClientUtil.postRequest(reqUrl, bytes);
+        byte[] response = HttpClientUtils.postRequest(reqUrl, bytes);
         return serializor.deserialize(response, RpcResponse.class);
     }
 }

@@ -1,17 +1,18 @@
 package com.usher.rpc.registry.redis;
 
-import com.usher.rpc.registry.IServiceRegister;
+import com.usher.rpc.registry.AbstractServiceRegister;
 
+import java.util.Map;
 import java.util.Set;
 
-public class RedisServiceRegister extends IServiceRegister {
+public class RedisServiceRegister extends AbstractServiceRegister {
 
     public RedisServiceRegister(String address, int port) {
         super(address, port);
     }
 
     @Override
-    public void registerService(Set<String> services) {
+    public void registerService(Map<String, String> services) {
 
     }
 

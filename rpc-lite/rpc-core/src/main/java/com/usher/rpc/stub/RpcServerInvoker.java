@@ -1,10 +1,9 @@
 package com.usher.rpc.stub;
 
-import com.usher.rpc.annotation.RpcService;
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.IServer;
-import com.usher.rpc.registry.IServiceRegister;
+import com.usher.rpc.connection.AbstractServer;
+import com.usher.rpc.registry.AbstractServiceRegister;
 import com.usher.rpc.serializor.Serializor;
 import lombok.Data;
 import org.springframework.beans.BeansException;
@@ -17,21 +16,19 @@ import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Data
-public class RpcServerInvoker implements ApplicationContextAware,InitializingBean, DisposableBean {
-    private IServer server;
+public class RpcServerInvoker  {
+    private AbstractServer server;
     private int port;
     private Serializor serializor;
-    private IServiceRegister serviceRegister;
-    @Override
-    public void destroy() throws Exception {
-        serviceRegister.stop();
-        server.stopServer();
-    }
+    private AbstractServiceRegister serviceRegister;
+//    @Override
+//    public void destroy() throws Exception {
+//        serviceRegister.stop();
+//        server.stopServer();
+//    }
 
 
     public static RpcResponse invokeService(RpcRequest request){
@@ -58,26 +55,26 @@ public class RpcServerInvoker implements ApplicationContextAware,InitializingBea
     }
 
     private static Map<String, Object> serviceMap = new HashMap<>();
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        Map<String, Object> map = applicationContext.getBeansWithAnnotation(RpcService.class);
-        for(Map.Entry<String, Object> entry : map.entrySet()){
-            String ifaceName = entry.getValue().getClass().getAnnotation(RpcService.class).value().getName();
-            Object bean = entry.getValue();
-            serviceMap.put(ifaceName, bean);
-        }
-    }
-
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        server.init(port, serializor).startServer();
-        if(serviceRegister != null){
-            Set<String> serviceSet = new LinkedHashSet<>();
-            for(Map.Entry<String, Object> entry : serviceMap.entrySet()){
-                serviceSet.add(entry.getKey());
-            }
-            serviceRegister.registerService(serviceSet);
-        }
-    }
+//    @Override
+//    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+////        Map<String, Object> map = applicationContext.getBeansWithAnnotation(RpcService.class);
+////        for(Map.Entry<String, Object> entry : map.entrySet()){
+////            String ifaceName = entry.getValue().getClass().getAnnotation(RpcService.class).value().getName();
+////            Object bean = entry.getValue();
+////            serviceMap.put(ifaceName, bean);
+////        }
+//    }
+//
+//
+//    @Override
+//    public void afterPropertiesSet() throws Exception {
+////        server.init(port, serializor).startServer();
+////        if(serviceRegister != null){
+////            Set<String> serviceSet = new LinkedHashSet<>();
+////            for(Map.Entry<String, Object> entry : serviceMap.entrySet()){
+////                serviceSet.add(entry.getKey());
+////            }
+////            serviceRegister.registerService(serviceSet);
+////        }
+//    }
 }

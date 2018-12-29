@@ -1,7 +1,7 @@
 package com.usher.rpc.registry.zookeeper;
 
 import com.usher.rpc.common.Environment;
-import com.usher.rpc.registry.IServiceDiscover;
+import com.usher.rpc.registry.AbstractServiceDiscover;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -9,8 +9,6 @@ import org.apache.zookeeper.ZooKeeper;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
@@ -19,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ZKServiceDiscover extends IServiceDiscover {
+public class ZKServiceDiscover extends AbstractServiceDiscover {
     private static Executor threadPool = Executors.newCachedThreadPool();
     public ZKServiceDiscover(String zkAddress){
         super(zkAddress);

@@ -3,6 +3,7 @@ package com.usher;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Unit test for simple App.
@@ -15,6 +16,7 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
-        assertTrue( true );
+        String str = String.format("%d", 1);
+        System.out.println(str);
     }
 }

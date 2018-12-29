@@ -1,9 +1,9 @@
-package com.usher.rpc.registry.redis;
+package com.usher.rpc.registry.local;
 
 import com.usher.rpc.registry.AbstractServiceDiscover;
 
-public class RedisServiceDiscover extends AbstractServiceDiscover {
-    public RedisServiceDiscover(String zkAddress) {
+public class LocalServiceDiscover extends AbstractServiceDiscover {
+    public LocalServiceDiscover(String zkAddress) {
         super(zkAddress);
     }
 

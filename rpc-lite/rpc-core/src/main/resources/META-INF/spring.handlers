@@ -1,1 +1,1 @@
-http\://www.rpc.com/schema/rpc=com.usher.rpc.schema.RpcNamespaceHandler
+http\://www.rpc.com/schema/rpc=com.usher.rpc.config.schema.RpcNamespaceHandler

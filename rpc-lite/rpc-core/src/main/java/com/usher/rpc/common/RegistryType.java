@@ -3,7 +3,7 @@ package com.usher.rpc.common;
 import org.springframework.util.StringUtils;
 
 public enum RegistryType {
-    REDIS, ZOOKEEPER, STANDALONE;
+    REDIS, ZOOKEEPER, LOCAL;
     private RegistryType(){}
 
     /**
@@ -27,4 +27,10 @@ public enum RegistryType {
         return ignoreCase ? registryType.name() : registryType.name().toLowerCase();
     }
 
+    public boolean isEqualTo(String type){
+        String name = this.name();
+        if(type.equalsIgnoreCase(type))
+            return true;
+        return false;
+    }
 }

@@ -1,8 +1,7 @@
 package com.usher.rpc.registry.zookeeper;
 
 import com.usher.rpc.common.Environment;
-import com.usher.rpc.registry.IServiceRegister;
-import lombok.Data;
+import com.usher.rpc.registry.AbstractServiceRegister;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 
@@ -10,11 +9,12 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ZKServiceRegister extends IServiceRegister {
+public class ZKServiceRegister extends AbstractServiceRegister {
     private static ZooKeeper zooKeeperInstance;
     private static ReentrantLock reentrantLock = new ReentrantLock(true);
     public ZKServiceRegister(String zkAddress, int servicePort){
@@ -65,7 +65,7 @@ public class ZKServiceRegister extends IServiceRegister {
 
     //注册格式 /rpc-lite/interface/address
     @Override
-    public void registerService(Set<String> services) {
+    public void registerService(Map<String, String> services) {
         String localAddress = null;
         try {
             localAddress = InetAddress.getLocalHost().getHostAddress();
@@ -79,7 +79,7 @@ public class ZKServiceRegister extends IServiceRegister {
             if(stat == null){
                 getInstance().create(Environment.RPC_ZK_PATH, new byte[]{}, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
-            for(String serviceName : services){
+            for(String serviceName : services.keySet()){
                 String servicePath = MessageFormat.format("{0}/{1}", Environment.RPC_ZK_PATH, serviceName);
                 String serviceAddress = MessageFormat.format("{0}/{1}/{2}", Environment.RPC_ZK_PATH, serviceName, serviceAdress);
 

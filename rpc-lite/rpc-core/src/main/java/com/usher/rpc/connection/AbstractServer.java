@@ -1,13 +1,11 @@
 package com.usher.rpc.connection;
 
-import com.usher.rpc.codec.RpcRequest;
-import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.serializor.Serializor;
 
-public abstract class IServer {
+public abstract class AbstractServer {
     protected int listenPort;
     protected Serializor serializor;
-    public IServer init(int port, Serializor serializor){
+    public AbstractServer init(int port, Serializor serializor){
         this.listenPort = port;
         this.serializor = serializor;
         return this;

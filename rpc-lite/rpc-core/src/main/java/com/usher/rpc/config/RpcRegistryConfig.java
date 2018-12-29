@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class RpcRegistryConfig {
-    private String id;
+    private String registryId;
     private String registryAddress;
     private int registryPort;
     /**

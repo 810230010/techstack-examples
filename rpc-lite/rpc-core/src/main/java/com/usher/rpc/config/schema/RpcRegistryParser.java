@@ -1,4 +1,4 @@
-package com.usher.rpc.schema;
+package com.usher.rpc.config.schema;
 
 import com.usher.rpc.common.NetcomType;
 import com.usher.rpc.common.RegistryType;
@@ -42,7 +42,7 @@ public class RpcRegistryParser implements BeanDefinitionParser {
         }
         beanDefinition.getPropertyValues().addPropertyValue("registryType", registryType);
 
-        boolean isStandAloneRegistry = registryType.equals(RegistryType.getRegistryTypeStr(RegistryType.STANDALONE, true));
+        boolean isStandAloneRegistry = registryType.equals(RegistryType.getRegistryTypeStr(RegistryType.LOCAL, true));
         if(isStandAloneRegistry){
             if(StringUtils.isEmpty(registryAddress)){
                 registryAddress = "localhost";

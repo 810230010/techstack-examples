@@ -4,7 +4,6 @@ import com.usher.rpc.connection.jetty.client.JettyClient;
 import com.usher.rpc.connection.jetty.server.JettyServer;
 import com.usher.rpc.connection.netty.client.NettyClient;
 import com.usher.rpc.connection.netty.server.NettyServer;
-import lombok.Data;
 
 /**
  * 通讯组件
@@ -12,9 +11,9 @@ import lombok.Data;
 public enum  NetComEnum {
     NETTY(NettyClient.class, NettyServer.class),
     JETTY(JettyClient.class, JettyServer.class);
-    public Class<? extends IClient> clientClass;
-    public Class<? extends IServer> serverClass;
-    NetComEnum(Class<? extends IClient> clientClass, Class<? extends IServer> serverClass) {
+    public Class<? extends AbstractClient> clientClass;
+    public Class<? extends AbstractServer> serverClass;
+    NetComEnum(Class<? extends AbstractClient> clientClass, Class<? extends AbstractServer> serverClass) {
         this.serverClass = serverClass;
         this.clientClass = clientClass;
     }

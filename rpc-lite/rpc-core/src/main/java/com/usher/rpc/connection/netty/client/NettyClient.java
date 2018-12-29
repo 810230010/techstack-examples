@@ -2,20 +2,17 @@ package com.usher.rpc.connection.netty.client;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.IClient;
+import com.usher.rpc.connection.AbstractClient;
 import com.usher.rpc.connection.netty.codec.RpcDecoder;
 import com.usher.rpc.connection.netty.codec.RpcEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.util.AttributeKey;
 
-public class NettyClient extends IClient {
+public class NettyClient extends AbstractClient {
     @Override
     public RpcResponse sendRequest(RpcRequest rpcRequest) {
         EventLoopGroup workerGroup = new NioEventLoopGroup();

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
-        xmlns="http://www.rpc.com/schema/rpc-lite"
+        xmlns="http://www.rpc.com/schema/rpc"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:beans="http://www.springframework.org/schema/beans"
-        targetNamespace="http://www.rpc.com/schema/rpc-lite"
+        targetNamespace="http://www.rpc.com/schema/rpc"
         elementFormDefault="qualified"
         attributeFormDefault="unqualified">
 
@@ -27,7 +27,7 @@
         <!--引用的实现类  声明class或者ref其中一个，其中ref填bean的id-->
         <xsd:attribute name="ref" type="xsd:string"/>
         <xsd:attribute name="class" type="xsd:string"/>
-        <xsd:attribute name="loadbalance" type="xsd:string" default="random"/>
+        <xsd:attribute name="loadbalance" type="xsd:string" default="RANDOM"/>
         <xsd:attribute name="timeout" type="xsd:long" default="1000"/>
     </xsd:complexType>
 
@@ -36,7 +36,7 @@
         <xsd:attribute name="id" type="xsd:string"/>
         <xsd:attribute name="address" type="xsd:string"/>
         <xsd:attribute name="port" type="xsd:int"/>
-        <!--REDIS、ZOOKEEPER、STANDALONE-->
+        <!--REDIS、ZOOKEEPER、LOCAL-->
         <xsd:attribute name="type" type="xsd:string"/>
     </xsd:complexType>
 
@@ -54,11 +54,15 @@
         <xsd:attribute name="serializor" type="xsd:string"/>
         <!--网络通讯: netty、jetty-->
         <xsd:attribute name="netcom" type="xsd:string"/>
+        <!--服务端口-->
+        <xsd:attribute name="port" type="xsd:int" default="-1"/>
     </xsd:complexType>
 
     <xsd:element name="application" type="applicationType"/>
+    <xsd:element name="protocol" type="protocolType"/>
+    <xsd:element name="registry" type="registryType"/>
     <xsd:element name="service" type="serviceType"/>
     <xsd:element name="reference" type="referenceType"/>
-    <xsd:element name="protocol" type="protocolType"/>
+
 
 </xsd:schema>

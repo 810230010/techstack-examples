@@ -1,4 +1,4 @@
-package com.usher.rpc.schema;
+package com.usher.rpc.config.schema;
 
 import com.usher.rpc.common.NetcomType;
 import com.usher.rpc.common.SerializorType;
@@ -21,7 +21,7 @@ public class RpcProtocolParser implements BeanDefinitionParser {
         String netcom = element.getAttribute("netcom");
         String serializor = element.getAttribute("serializor");
         String protocolId = element.getAttribute("id");
-
+        String servicePort = element.getAttribute("port");
         if(StringUtils.isEmpty(protocolId)){
             String className = RpcProtocolConfig.class.getName();
             protocolId = className;
@@ -47,7 +47,7 @@ public class RpcProtocolParser implements BeanDefinitionParser {
         }else {
             throw new IllegalArgumentException(String.format("<rpc:protocol serializor=\"%s\">, unknown serializor type which should be one of \"HESSIAN,JSON,KRYO\""));
         }
-        
+        beanDefinition.getPropertyValues().addPropertyValue("servicePort", Integer.parseInt(servicePort));
         parserContext.getRegistry().registerBeanDefinition(protocolId, beanDefinition);
         return beanDefinition;
     }

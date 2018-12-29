@@ -1,16 +1,14 @@
 package com.usher.rpc.connection.jetty.server;
 
-import com.usher.rpc.connection.IServer;
+import com.usher.rpc.connection.AbstractServer;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.util.thread.ExecutorThreadPool;
 
 
 @Slf4j
-public class JettyServer extends IServer {
+public class JettyServer extends AbstractServer {
     private Server server;
 
     @Override

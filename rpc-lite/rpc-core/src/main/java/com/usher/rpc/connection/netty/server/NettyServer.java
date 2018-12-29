@@ -2,7 +2,7 @@ package com.usher.rpc.connection.netty.server;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.IServer;
+import com.usher.rpc.connection.AbstractServer;
 import com.usher.rpc.connection.netty.codec.RpcDecoder;
 import com.usher.rpc.connection.netty.codec.RpcEncoder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -10,9 +10,8 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
-public class NettyServer extends IServer {
+public class NettyServer extends AbstractServer {
     private Thread thread;
     @Override
     public void startServer() {

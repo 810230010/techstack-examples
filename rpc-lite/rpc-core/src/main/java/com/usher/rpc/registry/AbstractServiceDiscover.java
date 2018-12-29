@@ -1,8 +1,9 @@
 package com.usher.rpc.registry;
 
-public abstract class IServiceDiscover {
+public abstract class AbstractServiceDiscover {
     protected String address;
-    public IServiceDiscover (String zkAddress){
+
+    public AbstractServiceDiscover(String zkAddress){
         this.address = zkAddress;
     }
     /**

@@ -1,6 +1,6 @@
 package com.usher.rpc.codec;
 
-import com.usher.rpc.registry.IServiceDiscover;
+import com.usher.rpc.registry.AbstractServiceDiscover;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,5 +13,5 @@ public class RpcRequest implements Serializable {
     private Class[] paramTypes;
     private Object[] params;
     private String ifaceName;
-    private IServiceDiscover serviceDiscover;
+    private AbstractServiceDiscover serviceDiscover;
 }

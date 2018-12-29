@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rpc="http://www.rpc.com/schema/rpc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.rpc.com/schema/rpc
+       http://www.rpc.com/schema/rpc.xsd">
+
+    <!-- 提供方应用信息 -->
+    <rpc:application name="provider"/>
+    <!-- 注册中心服务地址 -->
+    <!--multicast-->
+    <rpc:registry id="registry" address="localhost" type="LOCAL" port="8888"/>
+
+
+    <!-- 用dubbo协议-->
+    <rpc:protocol id="protocol" netcom="JETTY" serializor="HESSIAN" port="10010"/>
+
+
+    <!-- 声明需要暴露的服务接口 -->
+    <bean id="userService" class="com.usher.rpc.impl.UserServiceImpl"/>
+    <rpc:service interface="com.usher.iface.UserService" ref="userService"/>
+
+    <rpc:service interface="com.usher.iface.DemoService" class="com.usher.rpc.impl.DemoServiceImpl"/>
+</beans>

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class HttpClientUtil {
+public class HttpClientUtils {
     /**
      * post request
      */
