@@ -23,7 +23,7 @@ public class SortContext extends AbstractSort{
     }
 
     @Override
-    protected void sort(int[] arr) {
+    public void sort(int[] arr) {
         sortMethod.sort(arr);
     }
 }
