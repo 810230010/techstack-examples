@@ -1,4 +1,4 @@
-package main.java.problem.problem1;
+package problem.problem1;
 
 /**
  * 消费者
