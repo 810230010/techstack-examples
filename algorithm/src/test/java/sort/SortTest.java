@@ -1,9 +1,6 @@
 package sort;
 
-import com.algorithm.sort.BubbleSort;
-import com.algorithm.sort.InsertSort;
-import com.algorithm.sort.SelectionSort;
-import com.algorithm.sort.SortContext;
+import com.algorithm.sort.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +32,13 @@ public class SortTest {
     @Test
     public void insertSort(){
         SortContext sortContext = new SortContext(new InsertSort());
+        sortContext.sort(arr);
+        assertEquals(Arrays.toString(new int[]{1,2,3,5,56}), Arrays.toString(arr));
+    }
+
+    @Test
+    public void shellSort(){
+        SortContext sortContext = new SortContext(new ShellSort());
         sortContext.sort(arr);
         assertEquals(Arrays.toString(new int[]{1,2,3,5,56}), Arrays.toString(arr));
     }

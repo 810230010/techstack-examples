@@ -4,7 +4,7 @@ import com.util.CommonUtils;
 
 /**
  * insert sort
- * Time Complexity: O(n²)
+ * Time Complexity: Best: O(n)   Average: O(n²)   Worst: O(n²)
  * Space Complexity: O(1)
  * stable
  */
