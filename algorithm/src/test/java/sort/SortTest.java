@@ -42,6 +42,13 @@ public class SortTest {
         sortContext.sort(arr);
         assertEquals(Arrays.toString(new int[]{1,2,3,5,56}), Arrays.toString(arr));
     }
+
+    @Test
+    public void quickSort(){
+        SortContext sortContext = new SortContext(new QuickSort());
+        sortContext.sort(arr);
+        assertEquals(Arrays.toString(new int[]{1,2,3,5,56}), Arrays.toString(arr));
+    }
     @After
     public void getResult(){
         System.out.println("排序后: " + Arrays.toString(arr));
