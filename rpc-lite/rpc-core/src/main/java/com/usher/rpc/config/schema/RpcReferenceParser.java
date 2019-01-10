@@ -1,12 +1,17 @@
 package com.usher.rpc.config.schema;
 
 import com.usher.rpc.config.RpcReferenceConfig;
+import com.usher.rpc.config.RpcRegistryConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
-
+@Slf4j
 public class RpcReferenceParser implements BeanDefinitionParser {
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {
@@ -17,13 +22,37 @@ public class RpcReferenceParser implements BeanDefinitionParser {
         beanDefinition.setBeanClass(RpcReferenceConfig.class);
         beanDefinition.setLazyInit(false);
 
+        if(StringUtils.isEmpty(id)){
+            throw new IllegalArgumentException("<rpc:reference id=\"%s\">, id cannot be empty!");
+        }
+        if(parserContext.getRegistry().containsBeanDefinition(id)){
+            throw new IllegalArgumentException("<rpc:reference id=\"%s\">, which %s has been declared before!");
+        }
         beanDefinition.getPropertyValues().addPropertyValue("id", id);
         beanDefinition.getPropertyValues().addPropertyValue("ifaceName", interfaceName);
         beanDefinition.getPropertyValues().addPropertyValue("timeout", timeout);
 
-        parserContext.getRegistry().registerBeanDefinition(interfaceName, beanDefinition);
+        for(String beanDefinitionName : parserContext.getRegistry().getBeanDefinitionNames()){
+            BeanDefinition beanDef = parserContext.getRegistry().getBeanDefinition(beanDefinitionName);
+            String beanName = beanDef.getBeanClassName();
+            if(beanName.equals(RpcRegistryConfig.class.getName())){
+                PropertyValue addressProperty = beanDef.getPropertyValues().getPropertyValue("registryAddress");
+                PropertyValue portProperty = beanDef.getPropertyValues().getPropertyValue("registryPort");
+                PropertyValue typeProperty = beanDef.getPropertyValues().getPropertyValue("registryType");
+                if(addressProperty != null  && portProperty != null && typeProperty != null){
+                    Object address= addressProperty.getValue();
+                    Object port = portProperty.getValue();
+                    Object type = typeProperty.getValue();
+                    log.info("注册地址: {}, 注册地址端口: {}, 注册中心类型: {}", address, port, type);
+                    beanDefinition.getPropertyValues().addPropertyValue("registryAddress", address);
+                    beanDefinition.getPropertyValues().addPropertyValue("registryPort", port);
+                    beanDefinition.getPropertyValues().addPropertyValue("registryType", type);
+                }
+                break;
+            }
+        }
         parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
-        parserContext.getRegistry().registerBeanDefinition(timeout+"", beanDefinition);
+
         return beanDefinition;
     }
 }

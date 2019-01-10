@@ -10,8 +10,14 @@ public class RpcReferenceConfig implements ApplicationContextAware, Initializing
     private String id;
     private String ifaceName;
     private long timeout;
-    private RpcProtocolConfig protocolConfig;
-    private RpcRegistryConfig registryConfig;
+
+    private String registryType;
+    //注册中心地址
+    private String registryAddress;
+    //注册中心地址端口
+    private int registryPort;
+
+
     @Override
     public void afterPropertiesSet() throws Exception {
 
