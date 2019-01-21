@@ -16,7 +16,7 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
-        String str = String.format("%d", 1);
-        System.out.println(str);
+
     }
+
 }

@@ -5,7 +5,7 @@ import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.serializor.Serializor;
 import com.usher.rpc.stub.RpcClientRegistry;
 
-public abstract class AbstractClient {
+public abstract class AbstractNetcomClient {
     protected String serverAddress;
     protected int serverPort;
     protected Serializor serializor;
