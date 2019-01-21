@@ -1,5 +1,8 @@
 package basic;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TryCatchFinally {
     /**
      *
@@ -77,6 +80,8 @@ public class TryCatchFinally {
      * 如果在finally中返回值，不会抛异常
      */
     public static String tryCatchDemo5(){
+        Map map = new HashMap();
+        map.getOrDefault("a", "no a");
         String s = "";
         try {
             throw new RuntimeException();

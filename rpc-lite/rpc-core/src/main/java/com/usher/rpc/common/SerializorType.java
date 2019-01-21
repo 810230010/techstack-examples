@@ -5,7 +5,7 @@ import org.springframework.util.StringUtils;
 
 public enum  SerializorType {
     JSON,HESSIAN,KRYO;
-    private SerializorType(){
+    SerializorType(){
     }
     public static boolean matchSerializorType(String type){
         if(StringUtils.isEmpty(type))

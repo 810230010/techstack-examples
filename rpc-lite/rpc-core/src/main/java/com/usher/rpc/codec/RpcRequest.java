@@ -13,5 +13,5 @@ public class RpcRequest implements Serializable {
     private Class[] paramTypes;
     private Object[] params;
     private String ifaceName;
-    private AbstractServiceDiscover serviceDiscover;
+    private String registryType;
 }

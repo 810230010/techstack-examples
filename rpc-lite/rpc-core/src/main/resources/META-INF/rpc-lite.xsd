@@ -44,6 +44,7 @@
     <xsd:complexType name="referenceType">
         <xsd:attribute name="id" type="xsd:ID"/>
         <xsd:attribute name="interface" type="xsd:string"/>
+        <xsd:attribute name="ref" type="xsd:string"/>
         <xsd:attribute name="timeout" type="xsd:long" default="1000"/>
     </xsd:complexType>
 

@@ -47,7 +47,7 @@ public class RpcServiceConfig implements ApplicationContextAware, InitializingBe
 
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet(){
         log.info("service config属性填充完成，{},准备注册服务...,", this);
         export();
     }
@@ -67,9 +67,9 @@ public class RpcServiceConfig implements ApplicationContextAware, InitializingBe
             serviceRegister = new RedisServiceRegister(registryAddress, registryPort);
         }
 
-        Map<String, String> services = new TreeMap<>();
-        services.put(ifaceName, urlString);
-        serviceRegister.registerService(services);
+        Map<String, String> service = new TreeMap<>();
+        service.put(ifaceName, urlString);
+        serviceRegister.registerService(service);
     }
 
     private Map<String,String> getParams() {

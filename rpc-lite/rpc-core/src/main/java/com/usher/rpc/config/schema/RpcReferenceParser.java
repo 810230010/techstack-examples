@@ -5,10 +5,10 @@ import com.usher.rpc.config.RpcRegistryConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 @Slf4j
@@ -16,7 +16,7 @@ public class RpcReferenceParser implements BeanDefinitionParser {
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {
         String id= element.getAttribute("id");
-        String interfaceName = element.getAttribute("interface");
+
         long timeout = Long.valueOf(element.getAttribute("timeout"));
         RootBeanDefinition beanDefinition = new RootBeanDefinition();
         beanDefinition.setBeanClass(RpcReferenceConfig.class);
@@ -29,12 +29,15 @@ public class RpcReferenceParser implements BeanDefinitionParser {
             throw new IllegalArgumentException("<rpc:reference id=\"%s\">, which %s has been declared before!");
         }
         beanDefinition.getPropertyValues().addPropertyValue("id", id);
-        beanDefinition.getPropertyValues().addPropertyValue("ifaceName", interfaceName);
+
         beanDefinition.getPropertyValues().addPropertyValue("timeout", timeout);
 
         for(String beanDefinitionName : parserContext.getRegistry().getBeanDefinitionNames()){
             BeanDefinition beanDef = parserContext.getRegistry().getBeanDefinition(beanDefinitionName);
             String beanName = beanDef.getBeanClassName();
+            if(StringUtils.isEmpty(beanName)){
+                continue;
+            }
             if(beanName.equals(RpcRegistryConfig.class.getName())){
                 PropertyValue addressProperty = beanDef.getPropertyValues().getPropertyValue("registryAddress");
                 PropertyValue portProperty = beanDef.getPropertyValues().getPropertyValue("registryPort");
@@ -51,6 +54,22 @@ public class RpcReferenceParser implements BeanDefinitionParser {
                 break;
             }
         }
+
+        String ref = element.getAttribute("ref");
+        String ifaceName = element.getAttribute("interface");
+        if(StringUtils.isEmpty(ref) && StringUtils.isEmpty(ifaceName)){
+            throw new IllegalArgumentException(String.format("<rpc:reference ref=\"\" interface=\"\">, ref and interface cannot be both empty!", ref));
+        }
+        if(!StringUtils.isEmpty(ref)){
+            if(!parserContext.getRegistry().containsBeanDefinition(ref)){
+                throw new IllegalArgumentException(String.format("<rpc:reference ref=\"%s\">, there is no such spring bean!", ref));
+            }
+            Object refereceBean = new RuntimeBeanReference(ref);
+            beanDefinition.getPropertyValues().addPropertyValue("ref", refereceBean);
+        }else {
+            beanDefinition.getPropertyValues().addPropertyValue("ifaceName", ifaceName);
+        }
+
         parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
 
         return beanDefinition;

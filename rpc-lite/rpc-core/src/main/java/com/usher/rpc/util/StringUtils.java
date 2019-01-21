@@ -1,5 +1,7 @@
 package com.usher.rpc.util;
 
+import java.util.UUID;
+
 public class StringUtils {
     public static String trimEdgeStr(String sourceStr, String needTrimChar){
         String trimmedStr = "";
@@ -13,5 +15,14 @@ public class StringUtils {
             sb.deleteCharAt(trimEndIndex);
         }
         return sb.toString();
+    }
+
+    /**
+     * 生成uuid
+     * @return
+     */
+    public static String generateUUID(){
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
     }
 }
