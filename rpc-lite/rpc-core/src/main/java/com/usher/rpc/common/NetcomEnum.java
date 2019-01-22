@@ -1,5 +1,7 @@
-package com.usher.rpc.connection;
+package com.usher.rpc.common;
 
+import com.usher.rpc.connection.AbstractNetcomClient;
+import com.usher.rpc.connection.AbstractNetcomServer;
 import com.usher.rpc.connection.client.jetty.JettyClient;
 import com.usher.rpc.connection.client.netty.NettyClient;
 import com.usher.rpc.connection.server.jetty.JettyNetcomServer;
