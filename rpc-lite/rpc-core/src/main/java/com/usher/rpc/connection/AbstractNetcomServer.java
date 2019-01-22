@@ -2,10 +2,10 @@ package com.usher.rpc.connection;
 
 import com.usher.rpc.serializor.Serializor;
 
-public abstract class AbstractServer {
+public abstract class AbstractNetcomServer {
     protected int listenPort;
     protected Serializor serializor;
-    public AbstractServer init(int port, Serializor serializor){
+    public AbstractNetcomServer init(int port, Serializor serializor){
         this.listenPort = port;
         this.serializor = serializor;
         return this;

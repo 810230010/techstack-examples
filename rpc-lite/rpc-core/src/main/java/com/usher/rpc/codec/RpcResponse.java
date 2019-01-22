@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class RpcResponse implements Serializable {
+    private String requestId;
     private Object result;
     private Object error;
 }

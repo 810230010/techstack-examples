@@ -1,9 +1,9 @@
-package com.usher.rpc.connection.jetty.server;
+package com.usher.rpc.connection.server.jetty;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.serializor.Serializor;
-import com.usher.rpc.stub.RpcServerInvoker;
+import com.usher.rpc.stub.RpcServiceInvoker;
 import com.usher.rpc.util.HttpClientUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -23,7 +23,7 @@ public class JettyServerHandler extends AbstractHandler {
     public void handle(String s, Request request, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
         byte[] requestBytes = HttpClientUtils.readBytes(httpServletRequest);
         RpcRequest rpcRequest = serializor.deserialize(requestBytes, RpcRequest.class);
-        RpcResponse response = RpcServerInvoker.invokeService(rpcRequest);
+        RpcResponse response = RpcServiceInvoker.invokeService(rpcRequest);
 
         // serialize response
         byte[] responseBytes = serializor.serialize(response);

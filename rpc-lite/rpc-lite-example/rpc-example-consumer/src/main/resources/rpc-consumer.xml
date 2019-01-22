@@ -10,7 +10,7 @@
     <rpc:application name="consumer"/>
     <!-- 注册中心服务地址 -->
     <!--multicast-->
-    <rpc:registry id="registry" address="localhost" type="LOCAL" port="8888"/>
+    <rpc:registry id="registry" address="localhost" type="LOCAL" port="10010"/>
     <!-- 声明需要暴露的服务接口 -->
     <rpc:reference id="userService" interface="com.usher.iface.UserService"/>
 

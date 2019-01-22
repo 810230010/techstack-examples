@@ -1,5 +1,6 @@
 package com.usher.rpc.registry.zookeeper;
 
+import com.usher.rpc.cluster.router.ServiceRouteStrategy;
 import com.usher.rpc.common.Environment;
 import com.usher.rpc.registry.AbstractServiceDiscover;
 import org.apache.zookeeper.KeeperException;
@@ -19,8 +20,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ZKServiceDiscover extends AbstractServiceDiscover {
     private static Executor threadPool = Executors.newCachedThreadPool();
-    public ZKServiceDiscover(String zkAddress){
-        super(zkAddress);
+    public ZKServiceDiscover(String zkAddress, int port){
+        super(zkAddress, port);
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -46,7 +47,7 @@ public class ZKServiceDiscover extends AbstractServiceDiscover {
             try {
                 if(lock.tryLock(2, TimeUnit.SECONDS)){
                     try {
-                            zooKeeper = new ZooKeeper(address, 30000, (WatchedEvent event)->{
+                            zooKeeper = new ZooKeeper(registryAddress, 30000, (WatchedEvent event)->{
                             if(event.getState() == Watcher.Event.KeeperState.Expired){
                                 try {
                                     zooKeeper.close();
@@ -119,5 +120,10 @@ public class ZKServiceDiscover extends AbstractServiceDiscover {
         }else{
             return (String) address.toArray()[new Random().nextInt(address.size())];
         }
+    }
+
+    @Override
+    public String getService(String interfaceName, ServiceRouteStrategy serviceRouteStrategy) {
+        return null;
     }
 }

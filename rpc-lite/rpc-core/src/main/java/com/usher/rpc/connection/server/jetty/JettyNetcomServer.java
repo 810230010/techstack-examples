@@ -1,6 +1,6 @@
-package com.usher.rpc.connection.jetty.server;
+package com.usher.rpc.connection.server.jetty;
 
-import com.usher.rpc.connection.AbstractServer;
+import com.usher.rpc.connection.AbstractNetcomServer;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -8,7 +8,7 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 
 
 @Slf4j
-public class JettyServer extends AbstractServer {
+public class JettyNetcomServer extends AbstractNetcomServer {
     private Server server;
 
     @Override
@@ -24,8 +24,8 @@ public class JettyServer extends AbstractServer {
                 handlerCollection.setHandlers(new Handler[]{new JettyServerHandler(serializor)});
                 server.setHandler(handlerCollection);
                 try {
-                    if(log.isDebugEnabled()){
-                        log.info("-----------server start up at port: {}", listenPort);
+                    if(log.isInfoEnabled()){
+                        log.info("-----------embedded jetty server start up at port: {}", listenPort);
                     }
                     server.start();
 

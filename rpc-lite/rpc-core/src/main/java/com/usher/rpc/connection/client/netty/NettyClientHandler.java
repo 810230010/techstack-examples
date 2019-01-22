@@ -1,4 +1,4 @@
-package com.usher.rpc.connection.netty.client;
+package com.usher.rpc.connection.client.netty;
 
 import com.usher.rpc.codec.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;

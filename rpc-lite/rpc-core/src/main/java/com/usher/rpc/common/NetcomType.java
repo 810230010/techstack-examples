@@ -4,9 +4,7 @@ import org.springframework.util.StringUtils;
 
 public enum  NetcomType {
     JETTY, NETTY, MINA;
-
     NetcomType(){}
-
     public static boolean matchNetcomType(String type){
         if(StringUtils.isEmpty(type))
             return false;
@@ -19,4 +17,10 @@ public enum  NetcomType {
         return false;
     }
 
+    public boolean isEqualTo(String type){
+        String name = this.name();
+        if(type.equalsIgnoreCase(type))
+            return true;
+        return false;
+    }
 }

@@ -5,14 +5,11 @@ import com.usher.rpc.config.RpcProtocolConfig;
 import com.usher.rpc.config.RpcRegistryConfig;
 import com.usher.rpc.config.RpcServiceConfig;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 @Slf4j

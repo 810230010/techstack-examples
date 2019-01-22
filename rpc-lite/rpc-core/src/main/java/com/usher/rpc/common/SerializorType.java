@@ -1,6 +1,5 @@
 package com.usher.rpc.common;
 
-import com.usher.rpc.serializor.Serializor;
 import org.springframework.util.StringUtils;
 
 public enum  SerializorType {

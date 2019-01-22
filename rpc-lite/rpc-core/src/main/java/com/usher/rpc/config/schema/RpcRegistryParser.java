@@ -1,6 +1,5 @@
 package com.usher.rpc.config.schema;
 
-import com.usher.rpc.common.NetcomType;
 import com.usher.rpc.common.RegistryType;
 import com.usher.rpc.config.RpcRegistryConfig;
 import org.springframework.beans.factory.config.BeanDefinition;

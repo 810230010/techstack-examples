@@ -1,17 +1,19 @@
-package com.usher.rpc.connection.netty.server;
+package com.usher.rpc.connection.server.netty;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.AbstractServer;
-import com.usher.rpc.connection.netty.codec.RpcDecoder;
-import com.usher.rpc.connection.netty.codec.RpcEncoder;
+import com.usher.rpc.connection.AbstractNetcomServer;
+import com.usher.rpc.connection.server.netty.codec.RpcDecoder;
+import com.usher.rpc.connection.server.netty.codec.RpcEncoder;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-
-public class NettyServer extends AbstractServer {
+public class NettyNetcomServer extends AbstractNetcomServer {
     private Thread thread;
     @Override
     public void startServer() {

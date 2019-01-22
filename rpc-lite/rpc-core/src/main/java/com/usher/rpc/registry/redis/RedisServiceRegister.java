@@ -3,7 +3,6 @@ package com.usher.rpc.registry.redis;
 import com.usher.rpc.registry.AbstractServiceRegister;
 
 import java.util.Map;
-import java.util.Set;
 
 public class RedisServiceRegister extends AbstractServiceRegister {
 

@@ -1,4 +1,4 @@
-package com.usher.rpc.connection.netty.codec;
+package com.usher.rpc.connection.server.netty.codec;
 
 import com.usher.rpc.serializor.Serializor;
 import io.netty.buffer.ByteBuf;

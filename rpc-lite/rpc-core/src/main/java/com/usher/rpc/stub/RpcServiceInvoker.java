@@ -2,33 +2,20 @@ package com.usher.rpc.stub;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.AbstractServer;
+import com.usher.rpc.connection.AbstractNetcomServer;
 import com.usher.rpc.registry.AbstractServiceRegister;
 import com.usher.rpc.serializor.Serializor;
 import lombok.Data;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cglib.reflect.FastClass;
 import org.springframework.cglib.reflect.FastMethod;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Data
-public class RpcServerInvoker  {
-    private AbstractServer server;
-    private int port;
-    private Serializor serializor;
-    private AbstractServiceRegister serviceRegister;
-//    @Override
-//    public void destroy() throws Exception {
-//        serviceRegister.stop();
-//        server.stopServer();
-//    }
+public class RpcServiceInvoker {
 
 
     public static RpcResponse invokeService(RpcRequest request){
@@ -50,11 +37,12 @@ public class RpcServerInvoker  {
             e.printStackTrace();
         }
         RpcResponse response = new RpcResponse();
+        response.setRequestId(requestId);
         response.setResult(result);
         return response;
     }
 
-    private static Map<String, Object> serviceMap = new HashMap<>();
+    public static Map<String, Object> serviceMap = new ConcurrentHashMap<>();
 //    @Override
 //    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 ////        Map<String, Object> map = applicationContext.getBeansWithAnnotation(RpcService.class);

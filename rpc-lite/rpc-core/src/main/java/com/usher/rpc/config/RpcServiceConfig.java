@@ -2,6 +2,8 @@ package com.usher.rpc.config;
 
 import com.usher.rpc.common.RegistryType;
 import com.usher.rpc.common.ServiceURL;
+import com.usher.rpc.connection.AbstractNetcomServer;
+import com.usher.rpc.factory.NetcomServerFactory;
 import com.usher.rpc.registry.AbstractServiceRegister;
 import com.usher.rpc.registry.local.LocalServiceRegister;
 import com.usher.rpc.registry.redis.RedisServiceRegister;
@@ -16,7 +18,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Data
 @Slf4j
@@ -45,12 +49,25 @@ public class RpcServiceConfig implements ApplicationContextAware, InitializingBe
     //服务接口
     private int servicePort;
 
-
+    private volatile static AbstractNetcomServer server;
     @Override
     public void afterPropertiesSet(){
         log.info("service config属性填充完成，{},准备注册服务...,", this);
         export();
+        startEmbeddedServer();
     }
+
+    private void startEmbeddedServer() {
+        if(null == server){
+            synchronized (AbstractNetcomServer.class){
+                if(null == server){
+                    server = NetcomServerFactory.newServer(netcom, servicePort, serializor);
+                }
+            }
+        }
+        server.startServer();
+    }
+
     //localhost:8080/com.usher.iface.UserService?serializor=HESSIAN
     private synchronized void export() {
         String serviceHost= NetUtils.getLocalHostAddress();

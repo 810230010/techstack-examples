@@ -2,7 +2,6 @@
 <xsd:schema
         xmlns="http://www.rpc.com/schema/rpc"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-        xmlns:beans="http://www.springframework.org/schema/beans"
         targetNamespace="http://www.rpc.com/schema/rpc"
         elementFormDefault="qualified"
         attributeFormDefault="unqualified">

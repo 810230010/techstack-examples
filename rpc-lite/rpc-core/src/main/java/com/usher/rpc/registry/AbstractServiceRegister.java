@@ -3,7 +3,6 @@ package com.usher.rpc.registry;
 import lombok.Data;
 
 import java.util.Map;
-import java.util.Set;
 @Data
 public abstract class AbstractServiceRegister {
     protected String address;

@@ -1,6 +1,5 @@
 package com.usher.rpc.serializor;
 
-import com.usher.rpc.common.SerializorType;
 import com.usher.rpc.serializor.hessian.HessianSerializor;
 
 public abstract class Serializor {

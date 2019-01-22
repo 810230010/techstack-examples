@@ -1,6 +1,5 @@
 package com.usher.rpc.codec;
 
-import com.usher.rpc.registry.AbstractServiceDiscover;
 import lombok.Data;
 
 import java.io.Serializable;

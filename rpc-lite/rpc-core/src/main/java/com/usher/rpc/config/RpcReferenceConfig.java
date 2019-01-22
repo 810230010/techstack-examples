@@ -3,10 +3,10 @@ package com.usher.rpc.config;
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.common.RegistryType;
-import com.usher.rpc.common.SerializorType;
 import com.usher.rpc.common.ServiceURL;
 import com.usher.rpc.connection.AbstractNetcomClient;
-import com.usher.rpc.connection.jetty.client.JettyClient;
+import com.usher.rpc.connection.client.jetty.JettyClient;
+import com.usher.rpc.factory.NetcomClientFactory;
 import com.usher.rpc.registry.AbstractServiceDiscover;
 import com.usher.rpc.registry.local.LocalServiceDiscover;
 import com.usher.rpc.registry.redis.RedisServiceDiscover;
@@ -63,11 +63,16 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
     private void initClient(String registryType, String registryAddress, int registryPort){
         if(RegistryType.LOCAL.isEqualTo(registryType)){
             String localAddress = NetUtils.getLocalHostAddress();
-            client = new JettyClient(localAddress, NetUtils.getAvailablePort(0),
+            client = new JettyClient(localAddress, registryPort,
                     Serializor.DEFAULT_SERIALIZOR);
-        }else if(RegistryType.REDIS.isEqualTo(registryType)){
+        }else{
             String serviceUrl = serviceDiscover.getService(ifaceName);
-
+            ServiceURL url = ServiceURL.toServiceURL(serviceUrl);
+            String serializorType = url.getParamValueFor(ServiceURL.SERIALIZOR_KEY);
+            String netcomType = url.getParamValueFor(ServiceURL.NETCOM_KEY);
+            int port = url.getPort();
+            String serverAddress = url.getHost();
+            client = NetcomClientFactory.newClient(netcomType, serverAddress, port, serializorType);
         }
     }
     @Override

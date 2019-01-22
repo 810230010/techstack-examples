@@ -1,10 +1,11 @@
-package com.usher.rpc.connection.netty.client;
+package com.usher.rpc.connection.client.netty;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.AbstractClient;
-import com.usher.rpc.connection.netty.codec.RpcDecoder;
-import com.usher.rpc.connection.netty.codec.RpcEncoder;
+import com.usher.rpc.connection.AbstractNetcomClient;
+import com.usher.rpc.connection.server.netty.codec.RpcDecoder;
+import com.usher.rpc.connection.server.netty.codec.RpcEncoder;
+import com.usher.rpc.serializor.Serializor;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,7 +13,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 
-public class NettyClient extends AbstractClient {
+public class NettyClient extends AbstractNetcomClient {
+    public NettyClient(String _serverAddress, int _serverPort, Serializor _serializor) {
+        super(_serverAddress, _serverPort, _serializor);
+    }
+
     @Override
     public RpcResponse sendRequest(RpcRequest rpcRequest) {
         EventLoopGroup workerGroup = new NioEventLoopGroup();

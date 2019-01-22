@@ -1,9 +1,6 @@
 package com.usher.rpc.config.schema;
 
-import com.usher.rpc.common.NetcomType;
-import com.usher.rpc.common.SerializorType;
 import com.usher.rpc.config.RpcApplicationConfig;
-import com.usher.rpc.config.RpcProtocolConfig;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;

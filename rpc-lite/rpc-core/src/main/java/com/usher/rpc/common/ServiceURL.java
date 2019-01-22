@@ -9,6 +9,9 @@ import java.util.Map;
 //注册中心地址:端口号/接口全限定名?key=value
 @Data
 public class ServiceURL {
+    public transient static final String SERIALIZOR_KEY = "serializor";
+    public transient static final String NETCOM_KEY = "netcom";
+    public transient static final String SERVER_PORT_KEY = "port";
     private final String url;
     private final String host;
     private final int port;
@@ -50,7 +53,7 @@ public class ServiceURL {
         this.url = finalUrl;
     }
 
-    public ServiceURL toServiceURL(String url){
+    public static ServiceURL toServiceURL(String url){
         int hostAndIpSeparatorIndex = url.indexOf(":");
         if(hostAndIpSeparatorIndex < 0){
             throw new IllegalArgumentException("illegal service url!");

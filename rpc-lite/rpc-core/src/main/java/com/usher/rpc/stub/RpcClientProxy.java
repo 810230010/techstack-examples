@@ -2,7 +2,7 @@ package com.usher.rpc.stub;
 
 import com.usher.rpc.codec.RpcRequest;
 import com.usher.rpc.codec.RpcResponse;
-import com.usher.rpc.connection.AbstractClient;
+import com.usher.rpc.connection.AbstractNetcomClient;
 import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -14,7 +14,7 @@ public class RpcClientProxy<T> implements InitializingBean {
     private RpcClientRegistry rpcClientRegistry;
     private String className;
     private Class<T> iface;
-    private AbstractClient client;
+    private AbstractNetcomClient client;
 
 
     @Override
