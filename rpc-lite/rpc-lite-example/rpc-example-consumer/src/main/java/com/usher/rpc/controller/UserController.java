@@ -1,6 +1,7 @@
 package com.usher.rpc.controller;
 
 import com.usher.iface.DemoService;
+import com.usher.iface.UserService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +13,7 @@ public class UserController {
     public String test(){
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("rpc-consumer.xml");
         applicationContext.start();
-        DemoService demoService = (DemoService) applicationContext.getBean("demoService");
-        return demoService.say();
+        UserService userService = (UserService) applicationContext.getBean("userService");
+        return userService.say();
     }
 }

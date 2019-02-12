@@ -13,11 +13,12 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class NettyNetcomServer extends AbstractNetcomServer {
-    private Thread thread;
     @Override
     public void startServer() {
-        thread = new Thread(()->{
             EventLoopGroup bossGroup = new NioEventLoopGroup();
             EventLoopGroup workerGroup = new NioEventLoopGroup();
             ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -37,6 +38,7 @@ public class NettyNetcomServer extends AbstractNetcomServer {
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             try {
                 ChannelFuture future = serverBootstrap.bind(listenPort).sync();
+                log.info("netty server start up at port:{}", listenPort);
                 future.channel().closeFuture().sync().channel();
             } catch (InterruptedException e) {
                 workerGroup.shutdownGracefully();
@@ -46,14 +48,15 @@ public class NettyNetcomServer extends AbstractNetcomServer {
                 workerGroup.shutdownGracefully();
                 bossGroup.shutdownGracefully();
             }
-        });
-        thread.setDaemon(true);
-        thread.start();
-
     }
 
     @Override
     public void stopServer() {
-        thread.interrupt();
+
     }
+
+//    @Override
+//    public void stopServer() {
+//        thread.interrupt();
+//    }
 }

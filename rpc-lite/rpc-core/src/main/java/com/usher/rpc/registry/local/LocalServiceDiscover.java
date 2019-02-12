@@ -10,7 +10,7 @@ public class LocalServiceDiscover extends AbstractServiceDiscover {
 
     @Override
     public String getService(String interfaceName) {
-        return null;
+        return LocalServiceRegister.localServiceMap.get(interfaceName);
     }
 
     @Override

@@ -20,7 +20,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,6 +41,10 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
     private String                          registryAddress;
     //注册中心地址端口
     private int                             registryPort;
+
+    private String                          serializor;
+    private String                          netcom;
+    private int                             servicePort;
 
     private AbstractNetcomClient            client;
     private AbstractServiceDiscover         serviceDiscover;
@@ -63,8 +70,12 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
     private void initClient(String registryType, String registryAddress, int registryPort){
         if(RegistryType.LOCAL.isEqualTo(registryType)){
             String localAddress = NetUtils.getLocalHostAddress();
-            client = new JettyClient(localAddress, registryPort,
-                    Serializor.DEFAULT_SERIALIZOR);
+            if(null != netcom && 0 != servicePort && null != serializor){
+                client = NetcomClientFactory.newClient(netcom, localAddress, servicePort, serializor);
+            }else{
+                client = new JettyClient(localAddress, registryPort, Serializor.DEFAULT_SERIALIZOR);
+            }
+
         }else{
             String serviceUrl = serviceDiscover.getService(ifaceName);
             ServiceURL url = ServiceURL.toServiceURL(serviceUrl);
@@ -106,7 +117,9 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
                     Class[] paramTypes = method.getParameterTypes();
                     request.setParamTypes(paramTypes);
                     request.setRegistryType(registryType);
-
+                    if(isObjectMethod(methodName)){
+                        throw new IllegalStateException("unsupported method...");
+                    }
                     RpcResponse response = client.sendRequest(request);
                     return response.getResult();
                 });
@@ -121,4 +134,17 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
         return null;
     }
 
+
+    private boolean isObjectMethod(String methodName){
+        Method[] methods = Object.class.getMethods();
+        List<String> names = new ArrayList<>();
+        for(Method method : methods){
+            String name = method.getName();
+            names.add(name);
+        }
+        if(names.contains(methodName)){
+            return true;
+        }
+        return false;
+    }
 }

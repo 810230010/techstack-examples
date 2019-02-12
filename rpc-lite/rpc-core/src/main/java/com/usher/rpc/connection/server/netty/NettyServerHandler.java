@@ -14,14 +14,8 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> 
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, RpcRequest request) throws Exception {
         log.info("收到netty客户端发送的请求!");
         RpcResponse response = RpcServiceInvoker.invokeService(request);
-        ChannelFuture future= channelHandlerContext.writeAndFlush(response);
-        future.addListener((ChannelFuture f)->{
-           if(f.isSuccess()){
-               log.info("发送rp response成功!");
-           }else{
-               log.info("发送rp response失败!");
-           }
-        });
+        ChannelFuture future= channelHandlerContext.writeAndFlush(response).sync();
+
     }
 
     @Override

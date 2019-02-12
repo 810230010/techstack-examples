@@ -9,12 +9,11 @@
     <!-- 提供方应用信息 -->
     <rpc:application name="provider"/>
     <!-- 注册中心服务地址 -->
-    <!--multicast-->
     <rpc:registry id="registry" address="localhost" type="LOCAL" port="8888"/>
 
 
     <!-- 用dubbo协议-->
-    <rpc:protocol id="protocol" netcom="JETTY" serializor="HESSIAN" port="10010"/>
+    <rpc:protocol id="protocol" netcom="NETTY" serializor="HESSIAN" port="20880"/>
 
 
     <!-- 声明需要暴露的服务接口 -->

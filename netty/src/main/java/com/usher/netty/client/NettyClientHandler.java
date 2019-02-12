@@ -1,42 +1,36 @@
 package com.usher.netty.client;
 
+import com.usher.netty.entity.Result;
+import com.usher.netty.entity.User;
+import com.usher.netty.util.LoginUtil;
+import com.usher.serializor.HessianSerializor;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;
+import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
 @Slf4j
-public class NettyClientHandler extends ChannelInboundHandlerAdapter {
-    private ByteBuf buf;
+public class NettyClientHandler extends SimpleChannelInboundHandler<Result> {
     @Override
-    public void handlerAdded(ChannelHandlerContext ctx) {
-        buf = ctx.alloc().buffer(100); // (1)
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        log.info("客户端连接服务器成功...  现在准备登录..");
+
     }
 
     @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) {
-        buf.release(); // (1)
-        buf = null;
-    }
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf m = (ByteBuf) msg; // (1)
-        buf.writeBytes(m); // (2)
-        StringBuilder sb = new StringBuilder();
-        while(buf.isReadable()){
-            sb.append((char)buf.readByte());
+    public void channelRead0(ChannelHandlerContext ctx, Result result) throws Exception {
+        if(result.isResult()){
+            ctx.channel().attr(AttributeKey.valueOf("result")).set(true);
+            log.info("登录成功..., channel:{}", ctx.channel());
+        }else{
+            ctx.channel().attr(AttributeKey.valueOf("result")).set(false);
+            log.info("登录失败...");
         }
-        System.out.println(sb.toString());
-        ctx.attr(AttributeKey.valueOf("msg")).set(sb.toString());
-        ctx.close();
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
     }
 }

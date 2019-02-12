@@ -1,5 +1,6 @@
 package com.usher.rpc.config.schema;
 
+import com.usher.rpc.config.RpcProtocolConfig;
 import com.usher.rpc.config.RpcReferenceConfig;
 import com.usher.rpc.config.RpcRegistryConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +71,27 @@ public class RpcReferenceParser implements BeanDefinitionParser {
             beanDefinition.getPropertyValues().addPropertyValue("ifaceName", ifaceName);
         }
 
+        for(String beanDefinitionName : parserContext.getRegistry().getBeanDefinitionNames()){
+            BeanDefinition beanDef = parserContext.getRegistry().getBeanDefinition(beanDefinitionName);
+            String beanName = beanDef.getBeanClassName();
+            if(StringUtils.isEmpty(beanName)){
+                continue;
+            }
+            if(beanName.equals(RpcProtocolConfig.class.getName())){
+                PropertyValue serializorProperty = beanDef.getPropertyValues().getPropertyValue("serializor");
+                PropertyValue netcomProperty = beanDef.getPropertyValues().getPropertyValue("netcom");
+                PropertyValue netcomPortProperty = beanDef.getPropertyValues().getPropertyValue("servicePort");
+                if(serializorProperty != null  && netcomProperty != null && netcomPortProperty != null){
+                    Object serializor = serializorProperty.getValue();
+                    Object netcomPort = netcomPortProperty.getValue();
+                    Object netcom = netcomProperty.getValue();
+                    beanDefinition.getPropertyValues().addPropertyValue("serializor", serializor);
+                    beanDefinition.getPropertyValues().addPropertyValue("servicePort", netcomPort);
+                    beanDefinition.getPropertyValues().addPropertyValue("netcom", netcom);
+                }
+                break;
+            }
+        }
         parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
 
         return beanDefinition;

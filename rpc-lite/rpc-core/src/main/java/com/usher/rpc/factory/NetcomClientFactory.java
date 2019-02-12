@@ -5,6 +5,7 @@ import com.usher.rpc.common.SerializorEnum;
 import com.usher.rpc.connection.AbstractNetcomClient;
 import com.usher.rpc.connection.client.jetty.JettyClient;
 import com.usher.rpc.connection.client.mina.MinaClient;
+import com.usher.rpc.connection.client.netty.NettyClient;
 import com.usher.rpc.serializor.Serializor;
 
 public class NetcomClientFactory {
@@ -22,7 +23,7 @@ public class NetcomClientFactory {
         }else if(NetcomType.MINA.isEqualTo(netcomType)){
             return new MinaClient(serverAddress, serverPort, serializor);
         }else {
-            return new JettyClient(serverAddress, serverPort, serializor);
+            return new NettyClient(serverAddress, serverPort, serializor);
         }
     }
 }

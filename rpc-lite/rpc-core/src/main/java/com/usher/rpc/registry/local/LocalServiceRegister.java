@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalServiceRegister extends AbstractServiceRegister {
 
-    private static Map<String, String> localServiceMap = new ConcurrentHashMap();
+    public static Map<String, String> localServiceMap = new ConcurrentHashMap();
 
     public LocalServiceRegister(String address, int port) {
         super(address, port);

@@ -19,7 +19,7 @@ public enum  NetcomType {
 
     public boolean isEqualTo(String type){
         String name = this.name();
-        if(type.equalsIgnoreCase(type))
+        if(name.equalsIgnoreCase(type))
             return true;
         return false;
     }
