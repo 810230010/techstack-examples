@@ -48,7 +48,7 @@ public class NettyClient extends AbstractNetcomClient {
             e.printStackTrace();
         }
     }
-    //TODO 连接变成长连接
+    //TODO 心跳检测、空闲检测、
     @Override
     public RpcResponse sendRequest(RpcRequest rpcRequest) {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
