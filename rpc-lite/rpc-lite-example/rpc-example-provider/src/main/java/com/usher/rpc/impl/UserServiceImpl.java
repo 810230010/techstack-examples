@@ -8,4 +8,9 @@ public class UserServiceImpl implements UserService {
     public String say() {
         return "Hello World!";
     }
+
+    @Override
+    public String introduce() {
+        return "hello, i'm rpc.";
+    }
 }

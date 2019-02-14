@@ -16,4 +16,11 @@ public class UserController {
         UserService userService = (UserService) applicationContext.getBean("userService");
         return userService.say();
     }
+    @RequestMapping("/test2")
+    public String test2(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("rpc-consumer.xml");
+        applicationContext.start();
+        UserService userService = (UserService) applicationContext.getBean("userService");
+        return userService.introduce();
+    }
 }
