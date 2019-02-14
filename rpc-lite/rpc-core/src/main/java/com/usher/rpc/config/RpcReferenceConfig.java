@@ -5,6 +5,8 @@ import com.usher.rpc.codec.RpcResponse;
 import com.usher.rpc.common.RegistryType;
 import com.usher.rpc.common.ServiceURL;
 import com.usher.rpc.connection.AbstractNetcomClient;
+import com.usher.rpc.connection.RpcFutureManager;
+import com.usher.rpc.connection.RpcFutureReponse;
 import com.usher.rpc.connection.client.jetty.JettyClient;
 import com.usher.rpc.factory.NetcomClientFactory;
 import com.usher.rpc.registry.AbstractServiceDiscover;
@@ -26,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Data
 public class RpcReferenceConfig<T> implements ApplicationContextAware, InitializingBean, FactoryBean {
@@ -59,6 +64,8 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
         initServiceDiscover(registryType, registryAddress, registryPort);
         initClient(registryType, registryAddress, registryPort);
     }
+
+
 
     private void initServiceDiscover(String registryType, String registryAddress, int registryPort) {
         if(RegistryType.LOCAL.isEqualTo(registryType)){
@@ -120,7 +127,20 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
                     if(isObjectMethod(methodName)){
                         throw new IllegalStateException("unsupported method...");
                     }
-                    RpcResponse response = client.sendRequest(request);
+                    RpcFutureManager rpcFutureManager = RpcFutureManager.getInstance();
+                    RpcFutureReponse futureReponse = new RpcFutureReponse().addIntoFutureManager(rpcFutureManager)
+                            .addRpcRequest(request);
+                    client.sendRequest(request);
+                    RpcResponse response = null;
+                    try {
+                        response = futureReponse.get(timeout, TimeUnit.MILLISECONDS);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (TimeoutException e) {
+                        throw new TimeoutException("返回结果超时");
+                    }
                     return response.getResult();
                 });
         return proxy;

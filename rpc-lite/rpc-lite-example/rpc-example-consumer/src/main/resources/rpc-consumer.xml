@@ -15,5 +15,5 @@
     <!-- 声明需要暴露的服务接口 -->
     <rpc:reference id="userService" interface="com.usher.iface.UserService"/>
 
-    <rpc:reference id="demoService" interface="com.usher.iface.DemoService"/>
+    <rpc:reference id="demoService" interface="com.usher.iface.DemoService" timeout="1"/>
 </beans>
