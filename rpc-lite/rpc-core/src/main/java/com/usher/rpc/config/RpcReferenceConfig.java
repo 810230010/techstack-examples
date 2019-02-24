@@ -124,8 +124,8 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
                     Class[] paramTypes = method.getParameterTypes();
                     request.setParamTypes(paramTypes);
                     request.setRegistryType(registryType);
-                    if(isObjectMethod(methodName)){
-                        throw new IllegalStateException("unsupported method...");
+                    if(Object.class.equals(method.getDeclaringClass())){
+                        return method.invoke(target, params);
                     }
                     RpcFutureManager rpcFutureManager = RpcFutureManager.getInstance();
                     RpcFutureReponse futureReponse = new RpcFutureReponse().addIntoFutureManager(rpcFutureManager)
@@ -151,7 +151,12 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
 
     @Override
     public Class<?> getObjectType() {
-        return null;
+        try {
+            return getClassLoader().loadClass(ifaceName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -166,5 +171,9 @@ public class RpcReferenceConfig<T> implements ApplicationContextAware, Initializ
             return true;
         }
         return false;
+    }
+
+    private ClassLoader getClassLoader(){
+        return Thread.currentThread().getContextClassLoader();
     }
 }

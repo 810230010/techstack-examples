@@ -28,8 +28,10 @@ public class NettyClient extends AbstractNetcomClient {
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .handler(new ChannelInitializer<SocketChannel>() {
+                    // TODO 心跳检测、空闲检测、 拆包
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        //
                         socketChannel.pipeline().addLast(new RpcEncoder(RpcRequest.class, serializor))
 //                                                .addLast(new LengthFieldBasedFrameDecoder(65536, 0, 4, 0, 0))
                                 .addLast(new RpcDecoder(RpcResponse.class, serializor))
@@ -66,7 +68,7 @@ public class NettyClient extends AbstractNetcomClient {
         }
     }
 
-    //TODO 心跳检测、空闲检测,结果返回方式: 同步、future、callback
+    //TODO 结果返回方式: 同步、future、callback
     @Override
     public RpcResponse sendRequest(RpcRequest rpcRequest) {
         try {

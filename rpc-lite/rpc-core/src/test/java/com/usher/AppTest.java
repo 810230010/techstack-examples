@@ -13,7 +13,7 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
-
+        Integer.valueOf("12991");
     }
 
 }
