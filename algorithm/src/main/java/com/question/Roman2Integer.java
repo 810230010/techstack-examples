@@ -35,6 +35,7 @@ public class Roman2Integer {
             }else{
                 sum += prevNumber;
             }
+
         }
         return sum;
     }
