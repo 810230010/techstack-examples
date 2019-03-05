@@ -1,5 +1,6 @@
 package com.question;
 
+
 public class SearchInsertIndex {
     public int searchInsert(int[] nums, int target) {
         return binarySearch(nums, target);
@@ -7,7 +8,6 @@ public class SearchInsertIndex {
     private int binarySearch(int[] nums, int target){
         int left = 0;
         int right = nums.length - 1;
-
         while(left < right){
             int mid = (left + right) >> 1;
             if(nums[mid] == target){

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+/**
+ * 验证括号合法性[{}][]
+ */
 public class BracketValidation {
     private static final Map<Character, Character> mappings = new HashMap<Character, Character>();
     static {
