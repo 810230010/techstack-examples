@@ -1,3 +1,5 @@
+[![Build status](https://travis-ci.org/iluwatar/java-design-patterns.svg?branch=master)](https://travis-ci.org/iluwatar/java-design-patterns)
+[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/iluwatar/java-design-patterns/master/LICENSE.md)
 # techstack-examples
 各个技术的使用demo以及手写一些框架，比如rpc。
 ### 项目结构介绍
