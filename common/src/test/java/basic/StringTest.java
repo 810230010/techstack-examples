@@ -1,11 +1,14 @@
 package basic;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
 import static org.junit.Assert.*;
 public class StringTest {
     @Test
-    public static void demo1(){
-        String a = "a";
-        String b = "a";
+    public void demo1(){
     }
 }
