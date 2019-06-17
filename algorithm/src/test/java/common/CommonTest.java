@@ -8,7 +8,8 @@ import java.util.*;
 public class CommonTest {
     @Test
     public void test1(){
-        Deque deque = new LinkedList();
-        deque.pollFirst();
+        int a = 3;
+        int b = 2;
+        System.out.println(a ^ b);
     }
 }

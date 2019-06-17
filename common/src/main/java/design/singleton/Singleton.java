@@ -43,4 +43,7 @@ public class Singleton {
     public static Singleton getInstance4(){
         return InstanceHolder.INSTANCE;
     }
+
+
+    //枚举类
 }
