@@ -13,10 +13,12 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class NettyNetcomServer extends AbstractNetcomServer {
+    private static final Logger logger = LoggerFactory.getLogger(NettyNetcomServer.class);
+
     @Override
     public void startServer() {
             EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -38,7 +40,7 @@ public class NettyNetcomServer extends AbstractNetcomServer {
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             try {
                 ChannelFuture future = serverBootstrap.bind(listenPort).sync();
-                log.info("netty server start up at port:{}", listenPort);
+                logger.info("netty server start up at port:{}", listenPort);
                 future.channel().closeFuture().sync().channel();
             } catch (InterruptedException e) {
                 workerGroup.shutdownGracefully();

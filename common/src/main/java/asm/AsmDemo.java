@@ -1,6 +1,6 @@
 package asm;
 
-import org.objectweb.asm.*;
+import jdk.internal.org.objectweb.asm.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,6 +13,7 @@ public class AsmDemo {
             FileInputStream fis = new FileInputStream(classFilePath);
             try {
                 ClassReader classReader = new ClassReader(fis);
+
                 ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS);
                 ClassVisitor visitor = new ClassVisitor(Opcodes.ASM5, classWriter) {
                     @Override

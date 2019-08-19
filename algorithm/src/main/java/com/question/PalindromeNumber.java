@@ -1,12 +1,10 @@
 package com.question;
 
-import org.junit.jupiter.api.Test;
 
 /**
  * 回文数
  */
 public class PalindromeNumber {
-    @Test
     public static boolean isPalindrome(int x) {
         if(x < 0)
             return false;

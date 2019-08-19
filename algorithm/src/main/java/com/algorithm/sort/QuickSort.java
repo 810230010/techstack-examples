@@ -1,6 +1,5 @@
 package com.algorithm.sort;
 
-import com.google.common.base.MoreObjects;
 
 /**
  * quick sort
