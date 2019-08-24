@@ -92,7 +92,7 @@
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-server</artifactId>
-                <version>9.4.11.v20180605</version>
+                <version>9.4.17.v20190418</version>
             </dependency>
             <!-- jetty -->
             <dependency>
@@ -115,7 +115,7 @@
             <dependency>
                 <groupId>org.apache.zookeeper</groupId>
                 <artifactId>zookeeper</artifactId>
-                <version>3.4.6</version>
+                <version>3.4.14</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
@@ -169,6 +169,20 @@
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>transport</artifactId>
                 <version>6.0.0</version>
+            </dependency>
+
+            <!-- HTTP客户端 -->
+            <!-- ================================================= -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.9</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient-cache</artifactId>
+                <version>4.3.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
