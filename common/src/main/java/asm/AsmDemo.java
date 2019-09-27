@@ -1,5 +1,6 @@
 package asm;
 
+import jdk.internal.org.objectweb.asm.*;
 import org.objectweb.asm.*;
 
 import java.io.FileInputStream;
